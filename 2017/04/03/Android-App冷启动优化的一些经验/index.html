@@ -4,14 +4,34 @@
 <head>
   <meta charset="utf-8">
   
-  <title>低级Debuger</title>
+  <title>Android App冷启动优化的一些经验 | 低级Debuger</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="低级Debuger">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="&amp;emsp;&amp;emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android App冷启动优化的一些经验">
+<meta property="og:url" content="http://yoursite.com/2017/04/03/Android-App冷启动优化的一些经验/index.html">
 <meta property="og:site_name" content="低级Debuger">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/627e0dc3401985c603e025bf225be7f3.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/8ccff652ff16a76045ff90f69d36cd8d.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/260b26499bc64cdbece26ac221b3335f.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/58ddd5d610c0ce98a7ab0048314f20e5.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/ef7f63177f7a328da72704a35e78a6a9.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/2b3176e54a6fd2580e3057b44aa893e1.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/43ff429382cea8c63ff7b91ff4ed80d3.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/024bd2f96812848a7c6e438006f59a02.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/e87da139b8132b4bcd03ab41da8b8324.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/1fe07e3db0db534b4df56cbde4342bec.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/f2d8859d34d7635998042f3634c809f4.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/dda45874fe5975d420851a5ab8daa57a.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/6ef44346f7024d5157d622f44d1a5539.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/41197bbe6ca78f6dd6fcbcb889776117.png">
+<meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/44cce1e038a1f6f5325d634a3d539c3a.png">
+<meta property="og:updated_time" content="2017-04-03T16:07:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="低级Debuger">
+<meta name="twitter:title" content="Android App冷启动优化的一些经验">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他">
+<meta name="twitter:image" content="http://up.1.sogou.com/files/2016/10/28/627e0dc3401985c603e025bf225be7f3.png">
   
     <link rel="alternative" href="/atom.xml" title="低级Debuger" type="application/atom+xml">
   
@@ -67,9 +87,7 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-Android-App冷启动优化的一些经验" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Android-App冷启动优化的一些经验" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/04/03/Android-App冷启动优化的一些经验/" class="article-date">
   <time datetime="2017-04-03T13:30:57.000Z" itemprop="datePublished">2017-04-03</time>
@@ -82,8 +100,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/03/Android-App冷启动优化的一些经验/">Android App冷启动优化的一些经验</a>
+    <h1 class="article-title" itemprop="name">
+      Android App冷启动优化的一些经验
     </h1>
   
 
@@ -156,11 +174,14 @@
     </footer>
   </div>
   
+    
+  
 </article>
 
 
-  
-
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/04/03/Android-App冷启动优化的一些经验/" data-title="Android App冷启动优化的一些经验" data-url="http://yoursite.com/2017/04/03/Android-App冷启动优化的一些经验/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">
