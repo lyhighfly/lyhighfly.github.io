@@ -1,12 +1,101 @@
-
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+
+
+
   
-  <title>Android App冷启动优化的一些经验 | 低级Debuger</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;emsp;&amp;emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他">
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="性能优化，冷启动," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android App冷启动优化的一些经验">
 <meta property="og:url" content="http://yoursite.com/2017/04/03/Android-App冷启动优化的一些经验/index.html">
@@ -32,82 +121,204 @@
 <meta name="twitter:title" content="Android App冷启动优化的一些经验">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他">
 <meta name="twitter:image" content="http://up.1.sogou.com/files/2016/10/28/627e0dc3401985c603e025bf225be7f3.png">
-  
-    <link rel="alternative" href="/atom.xml" title="低级Debuger" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
-  
-</head>
-<body>
-<div id="container">
-  <div id="wrap">
-    <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">低级Debuger</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">是个懒蛋</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
-          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
-          <input type="submit" value="" class="search-form-submit">
-          <input name=tn type=hidden value="bds">
-          <input name=cl type=hidden value="3">
-          <input name=ct type=hidden value="2097152">
-          <input type="hidden" name="si" value="yoursite.com">
-        </form>
-      </div>
-    </div>
-  </div>
-</header>
-    <div class="outer">
-      <section id="main"><article id="post-Android-App冷启动优化的一些经验" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/04/03/Android-App冷启动优化的一些经验/" class="article-date">
-  <time datetime="2017-04-03T13:30:57.000Z" itemprop="datePublished">2017-04-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android App冷启动优化的一些经验
-    </h1>
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/03/Android-App冷启动优化的一些经验/"/>
+
+
+
+
+
+  <title>Android App冷启动优化的一些经验 | 低级Debuger</title>
   
 
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">低级Debuger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">是个懒蛋</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/03/Android-App冷启动优化的一些经验/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lyhighfly">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myself.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="低级Debuger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android App冷启动优化的一些经验</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-03T21:30:57+08:00">
+                2017-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p>&emsp;&emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他的影响App性能表现的Key。随便查阅四五篇，也就了然于胸了。相比而言，Google搜到的外文技术文章，还有一些App优化的独到见解和处理方式方法，这个会在下文中有所提及。<br>&emsp;&emsp;所以呢，常规套路在这里我就不准备写了，由于最近半年断断续续的都在做Sogou浏览器的冷启动优化，就分享一下在浏览器冷启动优化过程中的一些经验和一些接下来怎么去进一步优化整个App的想法吧。</p>
 <blockquote>
@@ -160,199 +371,347 @@
 
       
     </div>
-    <footer class="article-footer">
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
       
-        <a data-url="http://yoursite.com/2017/04/03/Android-App冷启动优化的一些经验/" data-id="cj6ueyen00000ars6sgmgpp8m" class="article-share-link" data-share="baidu" data-title="Android App冷启动优化的一些经验">Share</a>
+        <div class="post-tags">
+          
+            <a href="/tags/性能优化，冷启动/" rel="tag"># 性能优化，冷启动</a>
+          
+        </div>
       
 
       
-        <a href="http://yoursite.com/2017/04/03/Android-App冷启动优化的一些经验/#disqus_thread" class="article-comment-link">Comments</a>
+      
       
 
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化，冷启动/">性能优化，冷启动</a></li></ul>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/27/Android动画实现原理浅析/" rel="prev" title="Android动画实现原理浅析">
+                Android动画实现原理浅析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
   </div>
   
-    
-<nav id="article-nav">
   
-    <a href="/2017/08/27/Android动画实现原理浅析/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          Android动画实现原理浅析
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myself.jpg"
+               alt="lyhighfly" />
+          <p class="site-author-name" itemprop="name">lyhighfly</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sogou浏览器的冷启动优化"><span class="nav-number">1.</span> <span class="nav-text">Sogou浏览器的冷启动优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0，衡量标准："><span class="nav-number">1.1.</span> <span class="nav-text">0，衡量标准：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#以下摘自其他人的博客："><span class="nav-number">1.1.1.</span> <span class="nav-text">以下摘自其他人的博客：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1，应用层面的分析："><span class="nav-number">1.2.</span> <span class="nav-text">1，应用层面的分析：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#观察竞品QQ浏览器"><span class="nav-number">1.2.1.</span> <span class="nav-text">观察竞品QQ浏览器:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2，我们怎么做？："><span class="nav-number">1.3.</span> <span class="nav-text">2，我们怎么做？：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3，搜狗浏览器的实践："><span class="nav-number">1.4.</span> <span class="nav-text">3，搜狗浏览器的实践：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#initUI-Bundle-："><span class="nav-number">1.4.1.</span> <span class="nav-text">initUI(Bundle)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#其中，MainHandler就是主线程的Handler，mBrowserFrameLayout就是那个空架子，mScreenShotImage就是上一次的App-Home页面截图。"><span class="nav-number">1.4.2.</span> <span class="nav-text">其中，MainHandler就是主线程的Handler，mBrowserFrameLayout就是那个空架子，mScreenShotImage就是上一次的App Home页面截图。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MainHandler中的waitForIdle实现如下："><span class="nav-number">1.4.3.</span> <span class="nav-text">MainHandler中的waitForIdle实现如下：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Looper-getQueue-会报错是因为我们的应用要兼容低版本Android，而getQueue-这个方法是Api23以上才公开的方法，不过不用担心，因为追溯到Android2-3的手机上，Framework的层Looper实现中都是有getQueue-这个方法的，只是低版本都是private的。"><span class="nav-number">1.4.4.</span> <span class="nav-text">Looper.getQueue()会报错是因为我们的应用要兼容低版本Android，而getQueue()这个方法是Api23以上才公开的方法，不过不用担心，因为追溯到Android2.3的手机上，Framework的层Looper实现中都是有getQueue()这个方法的，只是低版本都是private的。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于横竖屏启动，截图使用可能错误：竖着启动，可能使用上次退出横屏的截图；反之也是类似的情况。对比了QQ浏览器，我们采用了相同的做法，只是用竖屏截图，横屏下退出不截图。然后如果用户横屏启动，要加一点额外的处理："><span class="nav-number">1.5.</span> <span class="nav-text">关于横竖屏启动，截图使用可能错误：竖着启动，可能使用上次退出横屏的截图；反之也是类似的情况。对比了QQ浏览器，我们采用了相同的做法，只是用竖屏截图，横屏下退出不截图。然后如果用户横屏启动，要加一点额外的处理：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后，还有一些细枝末节的处理，因为作为浏览器，会比普通App的调用场景更复杂多变一些。"><span class="nav-number">1.6.</span> <span class="nav-text">最后，还有一些细枝末节的处理，因为作为浏览器，会比普通App的调用场景更复杂多变一些。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最终结果还是比较令人满意的：Duang"><span class="nav-number">1.7.</span> <span class="nav-text">最终结果还是比较令人满意的：Duang~~~</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-</nav>
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lyhighfly</span>
 
   
-</article>
-
-
-  <section id="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-  </section>
-</section>
-      
-      <aside id="sidebar">
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-动画/">Android 动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化，冷启动/">性能优化，冷启动</a><span class="tag-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android-动画/" style="font-size: 10px;">Android 动画</a> <a href="/tags/性能优化，冷启动/" style="font-size: 10px;">性能优化，冷启动</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/08/27/Android动画实现原理浅析/">Android动画实现原理浅析</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/03/Android-App冷启动优化的一些经验/">Android App冷启动优化的一些经验</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Links</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="http://arvinxiang.com" target="_blank">主题作者</a>
-          </li>
-        
-          <li>
-            <a href="http://reqianduan.com" target="_blank">热前端</a>
-          </li>
-        
-          <li>
-            <a href="http://yuancheng.work" target="_blank">远程.work</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-      
-    </div>
-    <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2017 lyhighfly<br>
-      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
-      .
-      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
-    </div>
-  </div>
-</footer>
-  </div>
-  <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-  <!-- totop start -->
-<div id="totop">
-<a title="totop"><img src="/img/scrollup.png"/></a>
 </div>
 
-<!-- totop end -->
 
-<script>
-  var disqus_shortname = 'lyhighfly';
-  
-  var disqus_url = 'http://yoursite.com/2017/04/03/Android-App冷启动优化的一些经验/';
-  
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-</script>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a></div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
 
 
-<!-- 百度分享 start -->
+        
 
-<div id="article-share-box" class="article-share-box">
-  <div id="bdshare" class="bdsharebuttonbox article-share-links">
-    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
-    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
-    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
-    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
-    <a class="article-share-more" data-cmd="more" title="更多"></a>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
   </div>
-</div>
-<script>
-  function SetShareData(cmd, config) {
-    if (shareDataTitle && shareDataUrl) {
-      config.bdText = shareDataTitle;
-      config.bdUrl = shareDataUrl;
-    }
-    return config;
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
   }
-  window._bd_share_config={
-    "common":{onBeforeClick: SetShareData},
-    "share":{"bdCustomStyle":"/css/bdshare.css"}
-  };
-  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
 </script>
 
-<!-- 百度分享 end -->
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
 
 
-<script src="/js/script.js"></script>
 
-</div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.2"></script>
+
+
+  
+
 </body>
 </html>
