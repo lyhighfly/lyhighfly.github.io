@@ -106,7 +106,7 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
 <meta property="og:image" content="http://yoursite.com/2017/08/27/Android动画实现原理浅析/animatorimpl.png">
 <meta property="og:image" content="http://yoursite.com/2017/08/27/Android动画实现原理浅析/anim_timeline.png">
 <meta property="og:image" content="http://yoursite.com/2017/08/27/Android动画实现原理浅析/single_multi_anim.png">
-<meta property="og:updated_time" content="2017-08-27T07:28:27.000Z">
+<meta property="og:updated_time" content="2017-09-01T01:55:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android动画实现原理浅析">
 <meta name="twitter:description" content="Android中的动画使用注意事项基本上现如今市面上所有的app，都会使用到动画效果，动画可以很好的提升用户的交互体验。
@@ -355,6 +355,9 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
 </li>
 </ol>
 <p>通过查看ViewPropertyAnimator的实现，其实在其内部也是使用的ValueAnimator来实现的view的动画效果，但是呢，ViewPropertyAnimator针对多个Animator调用时的缺点，进行了优化，以提高性能（将需要使用动画的属性，放到一个Map里面，等待下一次的帧更新动作，然后在帧更新时，使用View内部存储的RenderNode节点，将各个属性值设置上去，然后调用View.invalidateViewProperty()(简化版的invalidate操作)）；</p>
+<blockquote>
+<p>此处可结合在搜狗浏览器V4.5优化网页加载进度条动画效果在天猫等个别重定向甚多的网站时，由于错误的使用ValueAnimator造成invalidate，requestlayout调用次数太多，从而影响了MainHandler其他message的及时响应，造成ANR的问题。。。</p>
+</blockquote>
 <p>但是使用中应该注意，ViewPropertyAnimator不能在外部持有其实例，以便以后反复使用，必须每次通过View.animate来获得实例。</p>
 <ol>
 <li>接下来就要分析一下在支持硬件加速的机器上，针对动画开启硬件加速的一些功能。</li>
