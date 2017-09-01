@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android 响应式 RxJava," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="TODO 如果发生异常，OnError，Action1运行的线程所在？？？？TODO map 和 flatMap 的原理TODO 与Retrofit的结合使用TODO RxBinding，RxLifeCycle的应用什么是响应式(Reactive):应用开发中的例子：搜索输入框，根据用户实时输入的数据，输入框下方会根据当前输入内容，实时刷新推荐信息，这种就叫做Reactive的能力。类似这种能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava应用">
+<meta property="og:url" content="http://yoursite.com/2017/08/20/RxJava应用/index.html">
+<meta property="og:site_name" content="低级Debuger">
+<meta property="og:description" content="TODO 如果发生异常，OnError，Action1运行的线程所在？？？？TODO map 和 flatMap 的原理TODO 与Retrofit的结合使用TODO RxBinding，RxLifeCycle的应用什么是响应式(Reactive):应用开发中的例子：搜索输入框，根据用户实时输入的数据，输入框下方会根据当前输入内容，实时刷新推荐信息，这种就叫做Reactive的能力。类似这种能">
+<meta property="og:image" content="http://yoursite.com/2017/08/20/RxJava应用/rxjava-subsribeon.png">
+<meta property="og:updated_time" content="2017-09-01T01:48:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava应用">
+<meta name="twitter:description" content="TODO 如果发生异常，OnError，Action1运行的线程所在？？？？TODO map 和 flatMap 的原理TODO 与Retrofit的结合使用TODO RxBinding，RxLifeCycle的应用什么是响应式(Reactive):应用开发中的例子：搜索输入框，根据用户实时输入的数据，输入框下方会根据当前输入内容，实时刷新推荐信息，这种就叫做Reactive的能力。类似这种能">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/20/RxJava应用/rxjava-subsribeon.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/20/RxJava应用/"/>
+
+
+
+
+
+  <title>RxJava应用 | 低级Debuger</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">低级Debuger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">是个懒蛋</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/20/RxJava应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lyhighfly">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myself.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="低级Debuger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RxJava应用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-20T15:24:51+08:00">
+                2017-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="TODO-如果发生异常，OnError，Action1运行的线程所在？？？？"><a href="#TODO-如果发生异常，OnError，Action1运行的线程所在？？？？" class="headerlink" title="TODO 如果发生异常，OnError，Action1运行的线程所在？？？？"></a>TODO 如果发生异常，OnError，Action1<throwable>运行的线程所在？？？？</throwable></h1><h1 id="TODO-map-和-flatMap-的原理"><a href="#TODO-map-和-flatMap-的原理" class="headerlink" title="TODO map 和 flatMap 的原理"></a>TODO map 和 flatMap 的原理</h1><h1 id="TODO-与Retrofit的结合使用"><a href="#TODO-与Retrofit的结合使用" class="headerlink" title="TODO 与Retrofit的结合使用"></a>TODO 与Retrofit的结合使用</h1><h1 id="TODO-RxBinding，RxLifeCycle的应用"><a href="#TODO-RxBinding，RxLifeCycle的应用" class="headerlink" title="TODO RxBinding，RxLifeCycle的应用"></a>TODO RxBinding，RxLifeCycle的应用</h1><h2 id="什么是响应式-Reactive"><a href="#什么是响应式-Reactive" class="headerlink" title="什么是响应式(Reactive):"></a>什么是响应式(Reactive):</h2><p>应用开发中的例子：<br>搜索输入框，根据用户实时输入的数据，输入框下方会根据当前输入内容，实时刷新推荐信息，这种就叫做Reactive的能力。<br>类似这种能自动对外部环境的变化做出响应的系统，我们就称之为响应式系统(Reactive System)，其中的外部环境，可以是输入信号的变化，事件的发生等等。通常这个响应式系统不但能响应外部环境的变化，还会根据自身内部状态通过某种方式反馈给外部观察者(推荐内容变化)。</p>
+<h2 id="什么是函数式编程-Functional-Programming"><a href="#什么是函数式编程-Functional-Programming" class="headerlink" title="什么是函数式编程(Functional Programming):"></a>什么是函数式编程(Functional Programming):</h2><p> <a href="https://www.zhihu.com/question/28292740" target="_blank" rel="external">函数式编程介绍</a><br> <a href="http://www.infoq.com/cn/articles/functional-reactive-programming?utm_source=infoq&amp;utm_campaign=user_page&amp;utm_medium=link" target="_blank" rel="external">介绍Callback形式和响应式区别</a><br> <a href="http://www.devtf.cn/?p=323" target="_blank" rel="external">一篇不错的Java响应式导读</a></p>
+<p>有别于命令式编程，逻辑式编程的一种编程范式，是一种面向数学的抽象，将计算描述为一种表达式求值，而这个表达式就是函数，求值的过程称之为自变量的映射。也就是说一个函数的求值结果，仅取决于自变量和函数本身，不依赖其他状态变量(也就是闭包), 也不修改其他外部变量，没有副作用。自变量可以是常规的变量，也可以是另一个函数(高阶函数)。(当然还有一些其他属性和特征，不详细介绍了)</p>
+<h2 id="什么是响应式编程-Reactive-Programming-："><a href="#什么是响应式编程-Reactive-Programming-：" class="headerlink" title="什么是响应式编程(Reactive Programming)："></a>什么是响应式编程(Reactive Programming)：</h2><p>响应式编程是一种面向数据流和变化传播的编程范式。这意味着可以在编程语言中很方便地表达静态或动态的数据流，而相关的计算模型会自动将变化的值通过数据流进行传播。</p>
+<h4 id="函数响应式编程-函数式-响应式-—-gt-函数响应式-Functional-Reactive-Programming"><a href="#函数响应式编程-函数式-响应式-—-gt-函数响应式-Functional-Reactive-Programming" class="headerlink" title="函数响应式编程(函数式+响应式 —&gt; 函数响应式 Functional Reactive Programming)"></a>函数响应式编程(函数式+响应式 —&gt; 函数响应式 Functional Reactive Programming)</h4><h3 id="TODO-编程范式关系图"><a href="#TODO-编程范式关系图" class="headerlink" title="TODO 编程范式关系图"></a>TODO 编程范式关系图</h3><ul>
+<li>利用函数式编程的思想和方法(闭包思想，函数、高阶函数)，来为响应式：事件流，变化传播所用。</li>
+</ul>
+<h3 id="监听状态变化Callback方式的弊端："><a href="#监听状态变化Callback方式的弊端：" class="headerlink" title="监听状态变化Callback方式的弊端："></a>监听状态变化Callback方式的弊端：</h3><ol>
+<li>状态的修改可能分布很多地方，针对状态而作响应动作的地方，也就线性增长；</li>
+<li>状态之间可能相互组合，相互影响，不集中管理，有可能出bug，而且很有可能出现未考虑的状态组合；</li>
+<li>多重回调，难于调试和跟踪，回调之间关系不清晰；</li>
+<li>尤其是在Android中，有UI操作，非UI操作之分，一些必须在UI中，一些一定不能在UI线程中去做。使用Callback难以实现线程的轻松切换</li>
+</ol>
+<p>而在Java，Android中使用的函数响应式编程框架就是：RxJava，RxAndroid</p>
+<p><br><a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="external">RxJava的GitHub</a>：函数响应式编程的主框架</p>
+<p><a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="external">RxAndroid的GitHub</a>：在RxJava基础上针对Android的扩展，用的最多的就是UI线程的切换</p>
+<h3 id="（1）-什么是RxJava："><a href="#（1）-什么是RxJava：" class="headerlink" title="（1） 什么是RxJava："></a>（1） 什么是RxJava：</h3><blockquote>
+<p>摘自GitHub上的一句话介绍：RxJava – Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM.(RxJava 是针对JVM的响应式编程思想的实现，一个使用可观测序列来组成<em>异步</em>和<em>基于事件</em>的library)。</p>
+</blockquote>
+<p>RxJava的设计思想，就是观察者模式(Observer Pattern)：</p>
+<p>Obserable：序列化产生事件的对象；Observer：观察者、订阅者，监听到变化后做出相应的动作。</p>
+<p>Obserable和Observer通过subscribe()方法实现订阅(观察，监听)关系，从而在Obserable可以在发生变化的时候通知Observer，并且在完成通知任务之后，又追加了几个方法调用 — error的通知，complete的通知。</p>
+<h4 id="示例1："><a href="#示例1：" class="headerlink" title="示例1："></a>示例1：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">Observable observable = Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> String&gt; subscriber)</span> </span>&#123;</div><div class="line">        subscriber.onNext(<span class="string">"h"</span>);</div><div class="line">        subscriber.onNext(<span class="string">"e"</span>);</div><div class="line">        subscriber.onNext(<span class="string">"l"</span>);</div><div class="line">        subscriber.onNext(<span class="string">"l"</span>);</div><div class="line">        subscriber.onCompleted();</div><div class="line">&#125;&#125;);<span class="comment">//创造一个最基本的事件序列，在被订阅时，依次将预定事件发送给观察者。</span></div><div class="line"></div><div class="line">Observer&lt;String&gt; observer = <span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Observer onCompleted"</span>);    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Observer onError"</span>);    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String o)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Observer onNext:"</span>+o);    &#125;</div><div class="line">&#125;;</div><div class="line">observable.subscribe(observer);<span class="comment">//发生订阅</span></div></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li><p>只有订阅发生是(observable.subscribe(observer))，事件流才会启动</p>
+</li>
+<li><p>队列完结是，需要调用onCompleted()，作为事件完结的标志(只有在自定义事件源时才需要这么做)</p>
+</li>
+<li><p>onComplete和onError是互斥事件</p>
+</li>
+<li><p>onError()：在事件队列发生异常时，会触发，同时队列自动终止，不允许再有事件发出</p>
+</li>
+</ol>
+<p>以上代码中，Observer定义了一套完整的监听事件，其中包括：每一次事件发生的监听onNext；发射源完成所有发射任务最后的事件：onComplete；如果在事件发射处理过程中有错误发生时：onError。</p>
+<p>有时候订阅者(Observer)可能只关心以上三种事件中的几种，也可以定义一个不完整的监听，只定义自己感兴趣的事件，不关心的事件不需要定义。</p>
+<p>例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//只对next事件感兴趣：</span></div><div class="line">Observable.just(<span class="string">"hello"</span>, <span class="string">"world"</span>).subscribe(<span class="keyword">new</span> Action1&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Observer call:"</span>+s);    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//只对next事件或者有可能发生的error感兴趣：</span></div><div class="line">Observable.just(<span class="string">"hello"</span>, <span class="string">"world"</span>).subscribe(</div><div class="line">    <span class="keyword">new</span> Action1&lt;String&gt;() &#123;<span class="comment">//next</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Observer call:"</span>+s);    &#125;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="keyword">new</span> Action1&lt;Throwable&gt;() &#123;<span class="comment">//error</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Throwable throwable)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Oops Error :"</span>+throwable);    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//甚至于对什么都不感兴趣，只是想让被观察者的事件发生：</span></div><div class="line">Observable.just(<span class="string">"hello"</span>, <span class="string">"world"</span>).subscribe();</div></pre></td></tr></table></figure></p>
+<p>关于以上几种情况，源代码都有相应的重载方法原型：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Subscription <span class="title">subscribe</span><span class="params">()</span>；</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> Subscription <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> Action1&lt;? <span class="keyword">super</span> T&gt; onNext)</span>；</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> Subscription <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> Action1&lt;? <span class="keyword">super</span> T&gt; onNext, <span class="keyword">final</span> Action1&lt;Throwable&gt; onError)</span>；</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> Subscription <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> Action1&lt;? <span class="keyword">super</span> T&gt; onNext, <span class="keyword">final</span> Action1&lt;Throwable&gt; onError, <span class="keyword">final</span> Action0 onCompleted)</span>；</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>可以看到，从不监听任何事件到监听所有事件，都有方法原型声明。null —&gt;(next) —&gt; (next, error) —&gt; (next, error, complete)；但是不能打破顺序跳跃式监听：例如一下：Obserable.subscribe(new Action1<throwable>) 或者    Obserable.subscribe(new Action0 onCompleted)。而且如果事件队列中途发生错误，而你又没有注册响应的监听事件，就会抛出异常：OnErrorNotImplementedException。因此，缺省监听，最保险的方式是一定要注册Next事件和Error事件。</throwable></p>
+</blockquote>
+<h3 id="（2）-RxJava常用操作符介绍：官网所列所有操作符-非常庞大"><a href="#（2）-RxJava常用操作符介绍：官网所列所有操作符-非常庞大" class="headerlink" title="（2） RxJava常用操作符介绍：官网所列所有操作符(非常庞大)"></a>（2） RxJava常用操作符介绍：<a href="http://reactivex.io/documentation/operators.html" target="_blank" rel="external">官网所列所有操作符(非常庞大)</a></h3><h5 id="TODO-常用操作符图文介绍"><a href="#TODO-常用操作符图文介绍" class="headerlink" title="TODO 常用操作符图文介绍"></a>TODO 常用操作符图文介绍</h5><ol>
+<li>create</li>
+<li>just/from</li>
+<li>map</li>
+<li>flatMap</li>
+<li>timer</li>
+<li>interval</li>
+<li>range</li>
+<li>concat</li>
+<li>merge/mergeDelayError</li>
+<li>startWith</li>
+<li>zip</li>
+<li>combineLatest/combineLatestDelayError(结合Reader同步更新书架实例)</li>
+<li>filter</li>
+<li>take/takeLast/takeLastBuffer/takeFirst</li>
+<li>ofType</li>
+<li>skip/skipLast</li>
+<li>elementAt</li>
+<li>distinct</li>
+<li>throttleFirst/throttleLast</li>
+<li>reduce</li>
+<li>collect</li>
+<li>count</li>
+<li>buffer</li>
+<li>toList/toSortedList/toMap</li>
+</ol>
+<h3 id="（3）-RxJava中的线程切换"><a href="#（3）-RxJava中的线程切换" class="headerlink" title="（3） RxJava中的线程切换"></a>（3） RxJava中的线程切换</h3><p>以上栗子中，没有涉及到线程切换的问题，因此都是按照默认的线程在运行：事件的发出和事件的接收在同一个线程中完成，两者所在线程由订阅动作(subscribe)发生的线程所决定。<br>RxJava的主要优势：1，避免了回调地狱；2，便利的线程切换。<br></p>
+<p>因此，接下来就要开始最主要的特征了，事件流中的线程切换：Scheduler</p>
+<p>还是上面的打印字符的事件栗子，这次主要关注Obserable和Observer的所处线程：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> Observable observable = Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> String&gt; subscriber)</span> </span>&#123;</div><div class="line">        subscriber.onNext(<span class="string">"hello word"</span>);</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Observable  onCompleted in Thread :"</span>+ Thread.currentThread().getName());</div><div class="line">        subscriber.onCompleted();</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="keyword">final</span> Observer&lt;String&gt; observer = <span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Observer receive onCompleted in Thread :"</span>+ Thread.currentThread().getName());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String o)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"liuyu"</span>, <span class="string">"Observer receive onNext in Thread :"</span>+ Thread.currentThread().getName());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//方便在开始一个订阅任务发生的开始时刻，添加一些额外的动作，比如开始一个网络请求之前，先显示一个loading的页面等等, 注意，在下面的subscribe代码分析中揭示了，此回调发生在subscribe调用所在的线程，因为要特别注意耗时与否</span></div><div class="line">        <span class="keyword">super</span>.onStart();</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">observable</div><div class="line">    .subscribeOn(Schedulers.io()) <span class="comment">//事件发出所在线程</span></div><div class="line">    .observeOn(AndroidSchedulers.mainThread()) <span class="comment">//事件接收者所在线程</span></div><div class="line">    .subscribe(observer);</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">输出结果：</div><div class="line">Observable  onCompleted in Thread  :Thread-<span class="number">2141</span></div><div class="line">Observer receive onNext in Thread : main</div><div class="line">Observer receive onCompleted in Thread :main</div></pre></td></tr></table></figure>
+<p>可以看到通过在订阅是通过方法：subscribeOn，observeOn指定了事件双方分属的线程。这里，我们主要关注的就是Schedulers(调度器)，RxJava就是通过调度器来指定代码应该运行在什么样的线程中，RxJava中已经内置了几种常用的Scheduler：</p>
+<ul>
+<li>Schedulers.io():I/O 操作（读写文件、读写数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 io() 比 newThread() 更有效率。不要把计算工作放在 io() 中，可以避免创建不必要的线程;</li>
+<li>Schedulers.immediate():直接在当前线程运行，相当于不指定线程。这是默认的 Scheduler;</li>
+<li>Schedulers.newThread():总是启用新线程，并在新线程执行操作;</li>
+<li>Schedulers.computation():计算所使用的 Scheduler。这个计算指的是 CPU 密集型计算，即不会被 I/O 等操作限制性能的操作，例如图形的计算。这个 Scheduler 使用的固定的线程池，大小为 CPU 核数。不要把 I/O 操作放在 computation() 中，否则 I/O 操作的等待时间会浪费 CPU;</li>
+<li>Schedulers.trampoline():将其放在当前线程中任务队列中，当前线程中任务完成之后开始执行;</li>
+<li>AndroidSchedulers.mainThread():RxAndroid依赖库中使用最频繁的方法，指定运行在主线程(UI线程)中;</li>
+</ul>
+<h4 id="3-1-不包含线程切换的订阅发生逻辑："><a href="#3-1-不包含线程切换的订阅发生逻辑：" class="headerlink" title="(3.1) 不包含线程切换的订阅发生逻辑："></a>(3.1) 不包含线程切换的订阅发生逻辑：</h4><pre><code>在分析订阅者，被订阅者线程切换的逻辑之前，先将没有任何线程切换的原始版本订阅发生过程，撸一遍，在搞明白这个后，就可以循循渐进的搞明白，订阅者，被订阅者分别运行的线程是怎么切换的。
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//以下代码非完整版本，只保留主干。</span></div><div class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">Subscription <span class="title">subscribe</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> T&gt; subscriber, Observable&lt;T&gt; observable)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// new Subscriber so onStart it</span></div><div class="line">        subscriber.onStart();</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// allow the hook to intercept and/or decorate,RxJavaHooks是用于hook 各种Observable生命周期行为的工具类，此处将其替换成真实的运行步骤</span></div><div class="line">            <span class="comment">//RxJavaHooks.onObservableStart(observable, observable.onSubscribe).call(subscriber);</span></div><div class="line">            <span class="comment">//return RxJavaHooks.onObservableReturn(subscriber);</span></div><div class="line">            observable.onSubscribe.call(subscriber);①</div><div class="line">            <span class="keyword">return</span> (Subscription)subscriber;</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">            <span class="keyword">if</span> (subscriber.isUnsubscribed()) &#123;</div><div class="line">                <span class="comment">//RxJavaHooks.onError(RxJavaHooks.onObservableError(e));</span></div><div class="line">                observable.onSubscribe.callError(subscriber);<span class="comment">//杜撰的方法调用</span></div><div class="line">            &#125;</div><div class="line">            <span class="comment">//return Subscriptions.unsubscribed();</span></div><div class="line">            <span class="keyword">return</span> (Subscription)subscriber;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>抛除各种关于Observer，Observable的包装，上述代码就是订阅发生之后，Observable emits items 的步骤，对照如下应用示例，大概就可以撸顺整个订阅发生的过程：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Observable observable = Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> String&gt; subscriber)</span> </span>&#123;②</div><div class="line">        subscriber.onNext(<span class="string">"hello word"</span>);</div><div class="line">        subscriber.onCompleted();</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">Observer&lt;String&gt; observer = <span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;④</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String o)</span> </span>&#123;③</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"> observable.subscribe(observer);</div></pre></td></tr></table></figure></p>
+<p>在Observable.onSubscribe的call回调中，参数为Subscriber，而我们定义的类型为Observer，这两者是什么关系呢？</p>
+<p>Subscriber是Observer接口的实现类，除了实现Observer接口定义的onNext，onError，onComplete方法之外，提供额外的回调(例如onStart)和取消订阅(unsubscribe(),isUnsubscribed())等方法，<br>如果上述示例中，直接使用了Observer，而不是Subscriber，在底层，是会自动将其包装成Subscriber的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Subscription <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (observer <span class="keyword">instanceof</span> Subscriber) &#123;</div><div class="line">        <span class="keyword">return</span> subscribe((Subscriber&lt;? <span class="keyword">super</span> T&gt;)observer);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (observer == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"observer is null"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> subscribe(<span class="keyword">new</span> ObserverSubscriber&lt;T&gt;(observer));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="3-2-带线程切换的订阅动作："><a href="#3-2-带线程切换的订阅动作：" class="headerlink" title="(3.2) 带线程切换的订阅动作："></a>(3.2) 带线程切换的订阅动作：</h4><ol>
+<li>Observable.subscribeOn():<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Obserable</span></span>&#123;&#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Observable&lt;T&gt; <span class="title">subscribeOn</span><span class="params">(Scheduler scheduler, <span class="keyword">boolean</span> requestOn)</span> </span>&#123;</div><div class="line">        <span class="comment">//TODO ScalarSynchronousObservable是什么？？？</span></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> ScalarSynchronousObservable) &#123;</div><div class="line">            <span class="keyword">return</span> ((ScalarSynchronousObservable&lt;T&gt;)<span class="keyword">this</span>).scalarScheduleOn(scheduler);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> unsafeCreate(<span class="keyword">new</span> OperatorSubscribeOn&lt;T&gt;(<span class="keyword">this</span>, scheduler, requestOn));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Subscription <span class="title">unsafeSubscribe</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> T&gt; subscriber)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            ......</div><div class="line">            RxJavaHooks.onObservableStart(<span class="keyword">this</span>, onSubscribe).call(subscriber);</div><div class="line">            <span class="keyword">return</span> RxJavaHooks.onObservableReturn(subscriber);</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">            ......</div><div class="line">            subscriber.onError(RxJavaHooks.onObservableError(e));</div><div class="line">            ......</div><div class="line">            <span class="keyword">return</span> Subscriptions.unsubscribed();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">OperatorSubscribeOn</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">OnSubscribe</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">final</span> Scheduler scheduler;</div><div class="line">    <span class="keyword">final</span> Observable&lt;T&gt; source;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> requestOn;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">OperatorSubscribeOn</span><span class="params">(Observable&lt;T&gt; source, Scheduler scheduler, <span class="keyword">boolean</span> requestOn)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.scheduler = scheduler;</div><div class="line">        <span class="keyword">this</span>.source = source;</div><div class="line">        <span class="keyword">this</span>.requestOn = requestOn;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(<span class="keyword">final</span> Subscriber&lt;? <span class="keyword">super</span> T&gt; subscriber)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> Worker inner = scheduler.createWorker();</div><div class="line"></div><div class="line">        SubscribeOnSubscriber&lt;T&gt; parent = <span class="keyword">new</span> SubscribeOnSubscriber&lt;T&gt;(subscriber, requestOn, inner, source);</div><div class="line">        subscriber.add(parent);</div><div class="line">        subscriber.add(inner);</div><div class="line"></div><div class="line">        <span class="comment">//根据Schedulers产生不同的线程切换动作</span></div><div class="line">        inner.schedule(parent);</div><div class="line">        ++++++++++++++++++++++++++++++++++</div><div class="line">            摘选一个Schedulers.newThread()的具体实现来看一下调用逻辑：CachedThreadSchedluer</div><div class="line">            ......</div><div class="line">            ......</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Subscription <span class="title">schedule</span><span class="params">(Action0 action)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> schedule(action, <span class="number">0</span>, <span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Subscription <span class="title">schedule</span><span class="params">(<span class="keyword">final</span> Action0 action, <span class="keyword">long</span> delayTime, TimeUnit unit)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (innerSubscription.isUnsubscribed()) &#123;</div><div class="line">                    <span class="comment">// don't schedule, we are unsubscribed</span></div><div class="line">                    <span class="keyword">return</span> Subscriptions.unsubscribed();</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                ScheduledAction s = threadWorker.scheduleActual(<span class="keyword">new</span> Action0() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">()</span> </span>&#123;</div><div class="line">                        <span class="keyword">if</span> (isUnsubscribed()) &#123;</div><div class="line">                            <span class="keyword">return</span>;</div><div class="line">                        &#125;</div><div class="line">                        <span class="comment">//实际调用为SubscribeOnSubscriber.call()，此时已经完成线程切换</span></div><div class="line">                        action.call();</div><div class="line">                    &#125;</div><div class="line">                &#125;, delayTime, unit);</div><div class="line">                innerSubscription.add(s);</div><div class="line">                s.addParent(innerSubscription);</div><div class="line">                <span class="keyword">return</span> s;</div><div class="line">            &#125;</div><div class="line">            ......</div><div class="line">            ......</div><div class="line">        ++++++++++++++++++++++++++++++++++</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SubscribeOnSubscriber</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Subscriber</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Action0</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Subscriber&lt;? <span class="keyword">super</span> T&gt; actual;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> requestOn;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Worker worker;</div><div class="line"></div><div class="line">        Observable&lt;T&gt; source;</div><div class="line"></div><div class="line">        Thread t;</div><div class="line"></div><div class="line">        SubscribeOnSubscriber(Subscriber&lt;? <span class="keyword">super</span> T&gt; actual, <span class="keyword">boolean</span> requestOn, Worker worker, Observable&lt;T&gt; source) &#123;</div><div class="line">            <span class="keyword">this</span>.actual = actual;</div><div class="line">            <span class="keyword">this</span>.requestOn = requestOn;</div><div class="line">            <span class="keyword">this</span>.worker = worker;</div><div class="line">            <span class="keyword">this</span>.source = source;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">            actual.onNext(t);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                actual.onError(e);</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                worker.unsubscribe();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                actual.onCompleted();</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                worker.unsubscribe();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">()</span> </span>&#123;<span class="comment">//注意：此时已经切换为Worker指定的线程了</span></div><div class="line">            Observable&lt;T&gt; src = source;</div><div class="line">            source = <span class="keyword">null</span>;</div><div class="line">            t = Thread.currentThread();</div><div class="line">            <span class="comment">//原Observable将items发射给当前这个Subscriber(SubscribeOnSubscriber),然后actual(Subscriber)再去将事件进行下一步的分发。</span></div><div class="line">            src.unsafeSubscribe(<span class="keyword">this</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        。。。。。。</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">如同上述例子中的Observable.create(OnSubscribe), unsafeCreate方法有产生了一个Observable,并且订阅的新事件为OnSubscribe( = OperatorSubscribeOn)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>至此，调用链为：</p>
+<ol>
+<li>Observable.create():创建了Observable-1和OnSubscribe-1；</li>
+<li>subscribeOn():创建了Observable-2和OperatorSubscribeOn(OnSubscribe-2)，同时，OnSubscribe-2中保存了Observable-1的引用。</li>
+<li>Obserable-2.subscribe(Observer):调用了OnSubscribe-2的call方法，在call方法中，通过Schedulers发生了线程切换，线程完成切换之后，调用了Observale-1.unsafeSubscribe(Obserable-2内部实现Subscriber)，此时OnSubscribe-1的call方法被调用，并且发生在Obsubscribe-2.SubscribeOnSubscriber.call所在的线程，此时就完成了源Observable.OnSubscribe发射事件的线程切换。</li>
+</ol>
+<p>如果多个subscribeOn链接，那么此时，Obserable.OnSubscribe究竟发生在哪个线程呢？？？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Observable.just(<span class="string">"ss"</span>) </div><div class="line">            .subscribeOn(Schedulers.io())   <span class="comment">// --thread-1---</span></div><div class="line">            .subscribeOn(Schedulers.newThread()) <span class="comment">//--thread-2----</span></div><div class="line">            .subscribe(<span class="keyword">new</span> Action1&lt;String&gt;() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div></pre></td></tr></table></figure>
+<p>下面来分析一下这个例子中的线程切换流程：</p>
+<pre><code>1，Obserable.just() : 产生Observable-1, OnSubscribe-1
+
+2,Observable-1.subscribeOn(Schedulers.io()) : 产生了Obserable-2, OperatorSubscribeOn-2，并在OperatorSubscribeOn-2中保存了Obserable-1的引用。
+
+3，了Obserable-2..subscribeOn(Schedulers.newThread())：创建Observable-3, OperatorSubscribeOn-3并在OperatorSubscribeOn-3保存Observable-2的引用。
+
+4，Obserable-3.subscribe():
+    调用OperatorSubscribeOn_3.call(),改变线程为Schedulers.newThread()。
+    调用OperatorSubscribeOn_2.call(),改变线程为Schedulers.io()。
+    调用OnSubscribe_1.call(),此时call()运行在Schedulers.io()。
+</code></pre><p>根据以上逻辑分析，会按照thread-1的线程进行执行。</p>
+<blockquote>
+<p>总结：subscribeOn的调用，会改变调用前事件运行的线程，多次调用subscribeOn，只有头部的subscribeOn起作用。<br><img src="/2017/08/20/RxJava应用/rxjava-subsribeon.png" alt="RxJava.subscribeOn线程切换逻辑"></p>
+</blockquote>
+<ol>
+<li>Observable.observeOn():</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">示例：</div><div class="line"></div><div class="line">Observable.just(<span class="string">"ss"</span>) </div><div class="line">    .observeOn(Schedulers.io())</div><div class="line">    .subscribe(<span class="keyword">new</span> Action1&lt;String&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Obserable</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Observable&lt;T&gt; <span class="title">observeOn</span><span class="params">(Scheduler scheduler, <span class="keyword">boolean</span> delayError, <span class="keyword">int</span> bufferSize)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> ScalarSynchronousObservable) &#123;</div><div class="line">            <span class="keyword">return</span> ((ScalarSynchronousObservable&lt;T&gt;)<span class="keyword">this</span>).scalarScheduleOn(scheduler);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> lift(<span class="keyword">new</span> OperatorObserveOn&lt;T&gt;(scheduler, delayError, bufferSize));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; <span class="function">Observable&lt;R&gt; <span class="title">lift</span><span class="params">(<span class="keyword">final</span> Operator&lt;? extends R, ? <span class="keyword">super</span> T&gt; operator)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> unsafeCreate(<span class="keyword">new</span> OnSubscribeLift&lt;T, R&gt;(onSubscribe, operator));</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">OnSubscribeLift</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; <span class="keyword">implements</span> <span class="title">OnSubscribe</span>&lt;<span class="title">R</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">final</span> OnSubscribe&lt;T&gt; parent;</div><div class="line"></div><div class="line">    <span class="keyword">final</span> Operator&lt;? extends R, ? <span class="keyword">super</span> T&gt; operator;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">OnSubscribeLift</span><span class="params">(OnSubscribe&lt;T&gt; parent, Operator&lt;? extends R, ? <span class="keyword">super</span> T&gt; operator)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.parent = parent;</div><div class="line">        <span class="keyword">this</span>.operator = operator;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> R&gt; o)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Subscriber&lt;? <span class="keyword">super</span> T&gt; st = operator.call(o);</div><div class="line">            ...</div><div class="line">            st.onStart();</div><div class="line">            parent.call(st);</div><div class="line">            ...</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">            ...</div><div class="line">            o.onError(e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">OperatorObserveOn</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Operator</span>&lt;<span class="title">T</span>, <span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    ...</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> Subscriber&lt;? <span class="keyword">super</span> T&gt; call(Subscriber&lt;? <span class="keyword">super</span> T&gt; child) &#123;</div><div class="line">        ...</div><div class="line"></div><div class="line">        ObserveOnSubscriber&lt;T&gt; parent = <span class="keyword">new</span> ObserveOnSubscriber&lt;T&gt;(scheduler, child, delayError, bufferSize);</div><div class="line">        parent.init();</div><div class="line">        <span class="keyword">return</span> parent;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ObserveOnSubscriber</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Subscriber</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Action0</span> </span>&#123;</div><div class="line">        ...</div><div class="line"></div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">            Subscriber&lt;? <span class="keyword">super</span> T&gt; localChild = child;</div><div class="line"></div><div class="line">            localChild.setProducer(<span class="keyword">new</span> Producer() &#123;</div><div class="line"></div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">request</span><span class="params">(<span class="keyword">long</span> n)</span> </span>&#123;</div><div class="line">                    <span class="keyword">if</span> (n &gt; <span class="number">0L</span>) &#123;</div><div class="line">                        BackpressureUtils.getAndAddRequest(requested, n);</div><div class="line">                        schedule();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">            &#125;);</div><div class="line">            localChild.add(recursiveScheduler);</div><div class="line">            localChild.add(<span class="keyword">this</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(<span class="keyword">final</span> T t)</span> </span>&#123;</div><div class="line">            ...</div><div class="line">            schedule();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</div><div class="line">            ...</div><div class="line">            finished = <span class="keyword">true</span>;</div><div class="line">            schedule();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(<span class="keyword">final</span> Throwable e)</span> </span>&#123;</div><div class="line">            ...</div><div class="line">            finished = <span class="keyword">true</span>;</div><div class="line">            schedule();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (counter.getAndIncrement() == <span class="number">0</span>) &#123;</div><div class="line">                recursiveScheduler.schedule(<span class="keyword">this</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// only execute this from schedule()</span></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">            <span class="keyword">final</span> Queue&lt;Object&gt; q = <span class="keyword">this</span>.queue;</div><div class="line">            <span class="keyword">final</span> Subscriber&lt;? <span class="keyword">super</span> T&gt; localChild = <span class="keyword">this</span>.child;</div><div class="line"></div><div class="line">            <span class="keyword">for</span> (;;) &#123;</div><div class="line">                <span class="keyword">long</span> requestAmount = requested.get();</div><div class="line"></div><div class="line">                <span class="keyword">while</span> (requestAmount != currentEmission) &#123;</div><div class="line">                    <span class="keyword">boolean</span> done = finished;</div><div class="line">                    Object v = q.poll();</div><div class="line">                    <span class="keyword">boolean</span> empty = v == <span class="keyword">null</span>;</div><div class="line"></div><div class="line">                    <span class="keyword">if</span> (checkTerminated(done, empty, localChild, q)) &#123;</div><div class="line">                        <span class="keyword">return</span>;</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    <span class="keyword">if</span> (empty) &#123;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    localChild.onNext(NotificationLite.&lt;T&gt;getValue(v));</div><div class="line"></div><div class="line">                    ...</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//完成或者异常时的退出</span></div><div class="line">        <span class="function"><span class="keyword">boolean</span> <span class="title">checkTerminated</span><span class="params">(<span class="keyword">boolean</span> done, <span class="keyword">boolean</span> isEmpty, Subscriber&lt;? <span class="keyword">super</span> T&gt; a, Queue&lt;Object&gt; q)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (a.isUnsubscribed()) &#123;</div><div class="line">                q.clear();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (done) &#123;</div><div class="line">            ...</div><div class="line">                Throwable e = error;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">                        a.onError(e);</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        a.onCompleted();</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    recursiveScheduler.unsubscribe();</div><div class="line">                &#125;</div><div class="line">            ...</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>至此，调用链为：</p>
+<ol>
+<li>Obserable.create() : 创建了Observable-1 ，OnSubscriber-1;</li>
+<li>observeOn : 创建了Obserable-2，OnSubscriber-2(OnSubcribeLift)持有OnSubscriber-1的引用，和一个线程变换动作OperatorObserverOn；</li>
+<li><p>subscribe(Subscriber-final) :</p>
+<p> ① OperatorObserveOn完成线程切换的准备工作，并持有了最终的Suscriber-final(缓存起来)，并以此构造了一个Obserable-1需要使用的Subscriber-temp;</p>
+<p> ② Obserable-1调用call(Subscriber)方法，实际是调用了①中创建的Subscriber-temp，如上，Subsriber-temp中的onNext，onComplete，onError，都没有直接调用真实的Subsriber-final对应的方法回调(废话，这样就相当于倒手传递了一下发射的事件，什么都没有做)，而是使用调度方法schedule，触发线程切换动作。</p>
+<p> ③ Subscriber-temp 在线程切换之后，回调call方法中，取出①中缓存的Suscriber-final，调用Subscriber-final的onNext，onComplete，onError。</p>
+</li>
+</ol>
+<h4 id="TODO-observeOn的流程图"><a href="#TODO-observeOn的流程图" class="headerlink" title="TODO observeOn的流程图"></a>TODO observeOn的流程图</h4><h4 id="3-3-subscribeOn、observeOn"><a href="#3-3-subscribeOn、observeOn" class="headerlink" title="(3.3)subscribeOn、observeOn"></a>(3.3)subscribeOn、observeOn</h4><p>综上，subscribeOn关注的是OnSubscriber，observeOn关注的是subscriber.onNext()。</p>
+<p>subcribeOn和observeOn 对比分析<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Observable</div><div class="line">.map                    <span class="comment">// 操作1</span></div><div class="line">.flatMap                <span class="comment">// 操作2</span></div><div class="line">.subscribeOn(io)</div><div class="line">.map                    <span class="comment">//操作3</span></div><div class="line">.flatMap                <span class="comment">//操作4</span></div><div class="line">.observeOn(main)</div><div class="line">.map                    <span class="comment">//操作5</span></div><div class="line">.flatMap                <span class="comment">//操作6</span></div><div class="line">.subscribeOn(io)        <span class="comment">//!!特别注意</span></div><div class="line">.subscribe(handleData)</div></pre></td></tr></table></figure></p>
+<p>有如上逻辑，则我们对其运行进行分析。</p>
+<p>首先，我们需要先明白其内部执行的逻辑。</p>
+<p>在调用subscribe之后，逻辑开始运行。分别调用每一步OnSubscribe.call()，注意：自下往上。当运行到最上，即Observable.create()后，我们在其中调用了subscriber.onNext(),于是程序开始自上往下执行每一个对象的subscriber.onNext()方法。最终，直到subscribe()中的回调。</p>
+<p>其次，从上面对subscribeOn()和observeOn()的分析中可以明白，subscribeOn()是在call()方法中起作用，而observeOn()是在onNext()中作用。</p>
+<p>那么对于以上的逻辑，我们可以得出如下结论：</p>
+<p>操作1,2,3,4在io线程中，因为在如果没有observeOn()影响，他们的回调操作默认在订阅的线程中。而我们的订阅线程在subscribeOn(io)发生了改变。注意他们执行的先后顺序。<br>操作5,6在main线程中运行。因为observeOn()改变了onNext().<br>特别注意那一个逻辑没起到作用<br>再简单点总结就是</p>
+<p>subscribeOn的调用切换之前的线程。<br>observeOn的调用切换之后的线程。<br>observeOn之后，不可再调用subscribeOn 切换线程<br>复杂情况</p>
+<p>我们经常多次使用subscribeOn切换线程，那么以后是否可以组合observeOn和subscribeOn达到自由切换的目的呢？</p>
+<p>组合是可以的，但是他们的执行顺序是有条件的，如果仔细分析的话，可以知道observeOn调用之后，再调用subscribeOn是无效的，原因是什么？</p>
+<p>因为subscribeOn改变的是subscribe这句调用所在的线程，大多数情况，产生内容和消费内容是在同一线程的，所以改变了产生内容所在的线程，就改变了消费内容所在的线程。</p>
+<p>经过上面的阐述，我们知道，observeOn的工作原理是把消费结果先缓存，再切换到新线程上让原始消费者消费，它和生产者是没有一点关系的，就算subscribeOn调用了，也只是改变observeOn这个消费者所在的线程，和OperatorObserveOn中存储的原始消费者一点关系都没有，它还是由observeOn控制。</p>
+<p>下面提到的“操作”包括产生事件、用操作符操作事件以及最终的通过 subscriber 消费事件；</p>
+<ol>
+<li>只有第一subscribeOn() 起作用（所以多个 subscribeOn() 无意义；</li>
+<li>这个 subscribeOn() 控制从流程开始的第一个操作，直到遇到第一个 observeOn()；</li>
+<li>observeOn() 可以使用多次，每个 observeOn() 将导致一次线程切换()，这次切换开始于这次 observeOn() 的下一个操作；<br>不论是 subscribeOn() 还是 observeOn()，每次线程切换如果不受到下一个 observeOn() 的干预，线程将不再改变，不会自动切换到其他线程。</li>
+</ol>
+<h3 id="3-发生错误时的逻辑处理"><a href="#3-发生错误时的逻辑处理" class="headerlink" title="3. 发生错误时的逻辑处理"></a>3. 发生错误时的逻辑处理</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-响应式-RxJava/" rel="tag"># Android 响应式 RxJava</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/03/Android-App冷启动优化的一些经验/" rel="next" title="Android App冷启动优化的一些经验">
+                <i class="fa fa-chevron-left"></i> Android App冷启动优化的一些经验
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/27/Android动画实现原理浅析/" rel="prev" title="Android动画实现原理浅析">
+                Android动画实现原理浅析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myself.jpg"
+               alt="lyhighfly" />
+          <p class="site-author-name" itemprop="name">lyhighfly</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TODO-如果发生异常，OnError，Action1运行的线程所在？？？？"><span class="nav-number">1.</span> <span class="nav-text">TODO 如果发生异常，OnError，Action1运行的线程所在？？？？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TODO-map-和-flatMap-的原理"><span class="nav-number">2.</span> <span class="nav-text">TODO map 和 flatMap 的原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TODO-与Retrofit的结合使用"><span class="nav-number">3.</span> <span class="nav-text">TODO 与Retrofit的结合使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TODO-RxBinding，RxLifeCycle的应用"><span class="nav-number">4.</span> <span class="nav-text">TODO RxBinding，RxLifeCycle的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是响应式-Reactive"><span class="nav-number">4.1.</span> <span class="nav-text">什么是响应式(Reactive):</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是函数式编程-Functional-Programming"><span class="nav-number">4.2.</span> <span class="nav-text">什么是函数式编程(Functional Programming):</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是响应式编程-Reactive-Programming-："><span class="nav-number">4.3.</span> <span class="nav-text">什么是响应式编程(Reactive Programming)：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数响应式编程-函数式-响应式-—-gt-函数响应式-Functional-Reactive-Programming"><span class="nav-number">4.3.0.1.</span> <span class="nav-text">函数响应式编程(函数式+响应式 —> 函数响应式 Functional Reactive Programming)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TODO-编程范式关系图"><span class="nav-number">4.3.1.</span> <span class="nav-text">TODO 编程范式关系图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监听状态变化Callback方式的弊端："><span class="nav-number">4.3.2.</span> <span class="nav-text">监听状态变化Callback方式的弊端：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）-什么是RxJava："><span class="nav-number">4.3.3.</span> <span class="nav-text">（1） 什么是RxJava：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#示例1："><span class="nav-number">4.3.3.1.</span> <span class="nav-text">示例1：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）-RxJava常用操作符介绍：官网所列所有操作符-非常庞大"><span class="nav-number">4.3.4.</span> <span class="nav-text">（2） RxJava常用操作符介绍：官网所列所有操作符(非常庞大)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TODO-常用操作符图文介绍"><span class="nav-number">4.3.4.0.1.</span> <span class="nav-text">TODO 常用操作符图文介绍</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）-RxJava中的线程切换"><span class="nav-number">4.3.5.</span> <span class="nav-text">（3） RxJava中的线程切换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-不包含线程切换的订阅发生逻辑："><span class="nav-number">4.3.5.1.</span> <span class="nav-text">(3.1) 不包含线程切换的订阅发生逻辑：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-带线程切换的订阅动作："><span class="nav-number">4.3.5.2.</span> <span class="nav-text">(3.2) 带线程切换的订阅动作：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TODO-observeOn的流程图"><span class="nav-number">4.3.5.3.</span> <span class="nav-text">TODO observeOn的流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-subscribeOn、observeOn"><span class="nav-number">4.3.5.4.</span> <span class="nav-text">(3.3)subscribeOn、observeOn</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-发生错误时的逻辑处理"><span class="nav-number">4.3.6.</span> <span class="nav-text">3. 发生错误时的逻辑处理</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lyhighfly</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a></div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.2"></script>
+
+
+  
+
+</body>
+</html>
