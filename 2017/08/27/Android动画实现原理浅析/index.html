@@ -106,7 +106,7 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
 <meta property="og:image" content="http://yoursite.com/2017/08/27/Android动画实现原理浅析/animatorimpl.png">
 <meta property="og:image" content="http://yoursite.com/2017/08/27/Android动画实现原理浅析/anim_timeline.png">
 <meta property="og:image" content="http://yoursite.com/2017/08/27/Android动画实现原理浅析/single_multi_anim.png">
-<meta property="og:updated_time" content="2017-09-01T01:55:46.000Z">
+<meta property="og:updated_time" content="2017-09-01T08:40:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android动画实现原理浅析">
 <meta name="twitter:description" content="Android中的动画使用注意事项基本上现如今市面上所有的app，都会使用到动画效果，动画可以很好的提升用户的交互体验。
@@ -207,7 +207,7 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -271,7 +271,7 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-27T15:24:51+08:00">
                 2017-08-27
@@ -315,14 +315,14 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
 <p>Android中的动画大概可以分成两个发展阶段：在Android3.0之前，Framework层提供了android.view.animation，可以实现View，ViewGroup的各种动画效果，比如AlphaAnimation，RotateAnimation，ScaleAnimation，TranslateAnimation，就可以分别实现透明度，旋转，缩放，位移等动画效果。当然，也可以通过AnimationSet将多个动画联合使用，以达到更复杂的效果。</p>
 <p>为什么在Android3.0之后，就不推荐使用animation的动画了呢，是因为它大概有以下几点缺点：</p>
 <ol>
-<li>animation的动画，只能实现View的简单的动画效果，负责的，比如颜色过渡无法实现；</li>
-<li>animation只能操作View及其子类的可视化动画效果，但是，有可能一些非view类型的动画效果无法实现；</li>
+<li>animation的动画，只能实现View的简单的动画效果，复杂的，比如颜色过渡无法实现；</li>
+<li>animation只能操作View及其子类的可视化动画效果，但是，有可能一些非view类型的随时间轴变化的效果无法实现(layout,position的变化)；</li>
 <li>animation只是简单的将view的视图信息发生了改变以达到视觉上的动画效果，但是view自身的属性没有发生根本的变化。</li>
 </ol>
 <p>为了弥补以上的缺点和不足，在Android3.0以上，Framework又提供了另一套动画框架：android.animation.animator。</p>
 <blockquote>
 <ol>
-<li>Animation在动画实现的机制上与Animation是完全不同的。一句话概括就是：Animation实在每次绘制之前，通过将整块画布矩阵变换，从而实现视觉坐标系的移动、变换，但实际上其view内部记录的坐标信息以及其他属性始终没有发生变化。</li>
+<li>Animation在动画实现的机制上与Animator是完全不同的。一句话概括就是：Animation实在每次绘制之前，通过将整块画布矩阵变换，从而实现视觉坐标系的移动、变换，但实际上其view内部记录的坐标信息以及其他属性始终没有发生变化。</li>
 <li>Animator其实在动画实现上更加直接，简单一些。他是计算动画节点上对应的value，然后将此value通过不同的方式作用到view的属性参数上。（以下会有更详细的Animator机制的介绍）</li>
 </ol>
 </blockquote>
@@ -454,10 +454,10 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -480,7 +480,7 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
               <a href="/archives">
             
                 <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -493,7 +493,7 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               
             </div>
           
@@ -560,7 +560,7 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" href="https://hexo.io">Hexo</a></div>
 
   <span class="post-meta-divider">|</span>
 
