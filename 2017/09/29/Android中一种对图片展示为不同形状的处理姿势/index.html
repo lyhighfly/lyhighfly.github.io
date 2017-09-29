@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android ImageView Bitmap 类圆角矩形," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="在Android UI开发中，经常会需要去展示各种各样的图片，如果只是一个新闻，一件商品的图片展示，可能产品或者美工没有什么太多的要求，默认的矩形展示就可以了。但是如果涉及到用户头像这种的，可能需要已不同于普通矩形的样式展示出来，比如说，圆角矩形，圆形等，感觉就是为了突出效果的目的呢，whatever，反正产品就要这种展示，我们苦逼的就需要去实现。
+1，常规实现方式：最最常规的实现方式，这个百度一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中一种对图片展示为不同形状的处理姿势">
+<meta property="og:url" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/index.html">
+<meta property="og:site_name" content="低级Debuger">
+<meta property="og:description" content="在Android UI开发中，经常会需要去展示各种各样的图片，如果只是一个新闻，一件商品的图片展示，可能产品或者美工没有什么太多的要求，默认的矩形展示就可以了。但是如果涉及到用户头像这种的，可能需要已不同于普通矩形的样式展示出来，比如说，圆角矩形，圆形等，感觉就是为了突出效果的目的呢，whatever，反正产品就要这种展示，我们苦逼的就需要去实现。
+1，常规实现方式：最最常规的实现方式，这个百度一">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/dropface.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/gov_demo.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/funny.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/new_quick_launcher.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/lame_math.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/lame_appoint.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/godie.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/verygood.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/test.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/lame_curve_bg.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/oval_curve_bg.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/rectangle_curve_bg.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/star_curve_bg.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/triangle_curve_bg.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/sogou.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/demo_result.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/why.png">
+<meta property="og:updated_time" content="2017-09-29T13:21:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中一种对图片展示为不同形状的处理姿势">
+<meta name="twitter:description" content="在Android UI开发中，经常会需要去展示各种各样的图片，如果只是一个新闻，一件商品的图片展示，可能产品或者美工没有什么太多的要求，默认的矩形展示就可以了。但是如果涉及到用户头像这种的，可能需要已不同于普通矩形的样式展示出来，比如说，圆角矩形，圆形等，感觉就是为了突出效果的目的呢，whatever，反正产品就要这种展示，我们苦逼的就需要去实现。
+1，常规实现方式：最最常规的实现方式，这个百度一">
+<meta name="twitter:image" content="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/dropface.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/"/>
+
+
+
+
+
+  <title>Android中一种对图片展示为不同形状的处理姿势 | 低级Debuger</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">低级Debuger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">是个懒蛋</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lyhighfly">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myself.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="低级Debuger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android中一种对图片展示为不同形状的处理姿势</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-29T15:11:03+08:00">
+                2017-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Android UI开发中，经常会需要去展示各种各样的图片，如果只是一个新闻，一件商品的图片展示，可能产品或者美工没有什么太多的要求，默认的矩形展示就可以了。但是如果涉及到用户头像这种的，可能需要已不同于普通矩形的样式展示出来，比如说，圆角矩形，圆形等，感觉就是为了突出效果的目的呢，whatever，反正产品就要这种展示，我们苦逼的就需要去实现。<br><img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/dropface.png" alt="改版之后的快链"></p>
+<h3 id="1，常规实现方式："><a href="#1，常规实现方式：" class="headerlink" title="1，常规实现方式："></a>1，常规实现方式：</h3><p>最最常规的实现方式，这个百度一下就能出来一坨，关键点就是使用了Paint.setXfermode()方法。Xfermode，这个合成词应该翻译成图像混合模式，就是用来指定使用Paint绘制的图像与原有的图像以怎样一个体位合成。<br>Xfermode有三个直接子类：</p>
+<ol>
+<li>AvoidXfermode //已被标注为废弃了</li>
+<li>PixelXorXfermode //已被标注为废弃了</li>
+<li>PorterDuffXfermode //主要使用对象</li>
+</ol>
+<p>于是当前主要的设置方式就是：Paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.XXX));其中的XXX有几种呢，如下：<img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/gov_demo.png" alt="PorterDuff.Mode" title="PorterDuff.Mode"></p>
+<p>*图像中，dest图像为蓝色的矩形，首先被绘制；src图像为黄色的原型，最后被绘制；中间一步就是在绘制src之前的设置Paint的xfermode。各种XXX代表的意思如下：</p>
+<p>   ADD:饱和相加,对图像饱和度进行相加,不常用</p>
+<p>　　CLEAR:清除图像</p>
+<p>　　DARKEN:变暗,较深的颜色覆盖较浅的颜色，若两者深浅程度相同则混合</p>
+<p>　　DST:只显示目标图像</p>
+<p>　　DST_ATOP:在源图像和目标图像相交的地方绘制【目标图像】，在不相交的地方绘制【源图像】，相交处的效果受到源图像和目标图像alpha的影响</p>
+<p>　　DST_IN:只在源图像和目标图像相交的地方绘制【目标图像】，绘制效果受到源图像对应地方透明度影响</p>
+<p>　　DST_OUT:只在源图像和目标图像不相交的地方绘制【目标图像】，在相交的地方根据源图像的alpha进行过滤，源图像完全不透明则完全过滤，完全透明则不过滤</p>
+<p>　　DST_OVER:将目标图像放在源图像上方</p>
+<p>　　LIGHTEN:变亮，与DARKEN相反，DARKEN和LIGHTEN生成的图像结果与Android对颜色值深浅的定义有关</p>
+<p>　　MULTIPLY:正片叠底，源图像素颜色值乘以目标图像素颜色值除以255得到混合后图像像素颜色值</p>
+<p>　　OVERLAY:叠加</p>
+<p>　　SCREEN:滤色，色调均和,保留两个图层中较白的部分，较暗的部分被遮盖</p>
+<p>　　SRC:只显示源图像</p>
+<p>　　SRC_ATOP:在源图像和目标图像相交的地方绘制【源图像】，在不相交的地方绘制【目标图像】，相交处的效果受到源图像和目标图像alpha的影响</p>
+<p>　　SRC_IN:只在源图像和目标图像相交的地方绘制【源图像】</p>
+<p>　　SRC_OUT:只在源图像和目标图像不相交的地方绘制【源图像】，相交的地方根据目标图像的对应地方的alpha进行过滤，目标图像完全不透明则完全过滤，完全透明则不过滤</p>
+<p>　　SRC_OVER:将源图像放在目标图像上方</p>
+<p>　　XOR:在源图像和目标图像相交的地方之外绘制它们，在相交的地方受到对应alpha和色值影响，如果完全不透明则相交处完全不绘制</p>
+<p>现在明确了XXX参数的含义，做出一个圆形的用户头像ImageView就不困难了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CircleImageView</span> <span class="keyword">extends</span> <span class="title">View</span></span>&#123;</div><div class="line">    ...</div><div class="line">    ...</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span></span>&#123;</div><div class="line">        canvas.drawCircle();</div><div class="line">        paint.setXfermode(PorterDuffXfermode.Mode.SRC_ATOP);</div><div class="line">        canvas.drawBitmap(Avatar, x, y, paint);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>大体的代码就如上，首先绘制Dest(Circle),然后设置Paint，再然后使用Avatar和这个Paint进一步绘制到canvas上，就完成了用户的圆形头像功能。<br>要十分注意这里的绘制顺序，如果顺序颠倒了，先绘制Avatar，然后设置Paint(Mode也相应的发生变化)，然后绘制Circle，就会无法达到我们需要的效果。这是为什么呢？<a href="http://www.jianshu.com/p/3feaa8b347f2" target="_blank" rel="external">android PorterDuffXferMode真正的效果测试集合（对比官方demo）</a><br>其文将两个图像的size相较于官方demo做了一些变化，然后就会得到一些大相径庭的效果，非常值得细细一看。至于上面这个问题，</p>
+<p>文作者总结说：因为我们的Xfermode 叠合裁剪，都是建立在不同的层级上，重新画一个bitmap会新开一层。</p>
+<p>第一种：先画circle 在canvas那层，再画Bitmap，新开了一层，中间镶嵌Xfermode，成功。</p>
+<p>第二种: 先画bitmap，新开了一层，再画circle，还是在bitmap那层，中间镶嵌 Xfermode,不成功。</p>
+<p>综上，如果改变了绘制顺序，想要成功的显示出想要的效果，就需要将绘制Circle这一步也产生一个Bitmap，然后将这个Bitmap绘制在Canvas上面。总之，就是需要把每一步都产生一个图层，这样xfermode才能在图层中间进行具体的操作。</p>
+<p>以上，为产生圆角矩形，圆形等图像的常规步骤，一般情况下，就可以应付产品了。<center><img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/funny.png" alt="改版之后的快链"></center><br>当然，有一般，就会有二般的情况，而且这个二般的情况，处理起来还非常蛋疼。。。</p>
+<h3 id="2，一种不常规的做法："><a href="#2，一种不常规的做法：" class="headerlink" title="2，一种不常规的做法："></a>2，一种不常规的做法：</h3><p>现在的产品都趋于大同，比如说底栏tab，比如说右上角的更多button，比如说圆角矩形。然后我们的产品就想着怎么做些改变，提高安装量，提高日活，这样才能有收入。浏览器首页改版，最突出的一块就剩快链了，所以，就琢么着怎么把快链做的有点新意，更美观一些，然后就给我派了不算大也不算小的活，改版快链模块，功能上没有什么大的变化，也就是能拖动调整位置，能长按编辑，删除，添加等等。这些都还好说，但是，在UI上，产品想做点改变，原先每一个快链都是圆角矩形，竞品的也多是圆角矩形，或者矩形，而我们要跟他们不一样，最终定的方案，是做成拉美曲线的outline。<br>先放一张改完版之后的lame curve版本的快链，好有个直观感受：<br><img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/new_quick_launcher.png" alt="改版之后的快链"><br>有没有感到图片确实比圆角矩形在边缘过渡的更圆滑，顺畅一些。。。</p>
+<h3 id="下面就说说我苦逼实现的过程："><a href="#下面就说说我苦逼实现的过程：" class="headerlink" title="下面就说说我苦逼实现的过程："></a>下面就说说我苦逼实现的过程：</h3><p>首先，什么是lame curve，刚开始知道方案的时候，我是一脸懵逼。后来查了查，才算了解了什么是<a href="https://en.wikipedia.org/wiki/Superellipse" target="_blank" rel="external">Lame Curve</a></p>
+<p>首先是lame的公式：<img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/lame_math.png" alt="lame_math">，</p>
+<p>这是需要我去实现的特定lame，你们感受一下 <img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/lame_appoint.png" alt="lame_math"></p>
+<p>四阶方程，两个变量，当然可以使用Path，将根据方程算出的x，y值串联起来，画在canvas上面，然后设置Paint，再将快链的原始矩形图标绘制到canvas，最终完成lame 外形的快链图标。</p>
+<p>but，数学都还给老师了，即使还记得怎么求解xy，但是需要把xy都计算出来，收敛于一个固定值，精确度的问题，再加上本身我对canvas上面的绘制就不是太熟练，所以，把这个方案当成了下下策。<center><img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/godie.png" alt="lame_math"> </center></p>
+<p>另外想招，可以让美工把图标都处理好，下发给我的时候已经是拉美曲线外形的了，这样移动端也省去的计算，这种方案对像淘宝，京东首页应该非常适用，因为他们的首页固定就8-10个图标，除了点击，没有给用户提供更多的交互途径，完全可以后台做完，直接下发展示就over了。但是浏览器一类的应用，首页的快链，都是可以用户自主编辑的，他完全可以自己定义一个快速链接，URL，名称完全自定义，世界上的网站千千万，每一个网站的favicon都预处理，要累死美工。<img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/verygood.png" alt="lame_math">。so，这个方案也被pass了。</p>
+<blockquote>
+<p>说句题外话，有时候当你想不到好的方案，对bug一筹莫展，找不到头绪的时候。适当的暂时放下来，搁置在一旁，忙一下其他的事情，有时候过一段时间回头看看，说不定就突然有了思路，知道bug在哪里了。</p>
+</blockquote>
+<p>走神的时候看到圆形头像的处理过程，想到既然 Circle和Avatar都可以做成Bitmap，分别绘制在Canvas上面，lame曲线跟Circle的作用是一样的，提供一个轮廓而已，完全可以让美工给做一个lame的模板，然后在绘制Avatar。</p>
+<p>有了思路，赶紧当下做做试试，也许冥冥中天注定，我随手拿来写demo用的图片资源成了我能实现这个功能的关键。<br>又but，很快就遇到了问题：<br>1，之前是绘制一个Circle在Canvas上面，系统有api，很方便这样做。但是如果是读取一个lame Bitmap，然后将其绘制在Canvas上，接着在绘制另一个Bitmap，此时就会抛出异常：<em>Immutable bitmap passed to Canvas constructor</em>，什么意思呢？就是Android中不允许对res或者网络提供的图片资源进行修改，咱们第一步将lame曲线的模板图片绘制完，在绘制其他bitmap，此时就是对lame 模板的修改，系统是不允许的，当然，这个也好规避绕过去：把他存起来，在读进来，就变成Mutable的了，哈哈哈。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * Converts a immutable bitmap to a mutable bitmap. This operation doesn't</div><div class="line">     * allocates more memory that there is already allocated.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> imgIn</div><div class="line">     *            - Source image. It will be released, and should not be used</div><div class="line">     *            more</div><div class="line">     * <span class="doctag">@return</span> a copy of imgIn, but muttable.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Bitmap <span class="title">convertToMutable</span><span class="params">(Bitmap imgIn)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// this is the file going to use temporally to save the bytes.</span></div><div class="line">        <span class="comment">// This file will not be a image, it will store the raw image data.</span></div><div class="line">        File file = <span class="keyword">new</span> File(Environment.getExternalStorageDirectory()</div><div class="line">                + File.separator + <span class="string">"temp.tmp"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// Open an RandomAccessFile</span></div><div class="line">        <span class="comment">// Make sure you have added uses-permission</span></div><div class="line">        <span class="comment">// android:name="android.permission.WRITE_EXTERNAL_STORAGE"</span></div><div class="line">        <span class="comment">// into AndroidManifest.xml file</span></div><div class="line">        RandomAccessFile randomAccessFile = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">"rw"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// get the width and height of the source bitmap.</span></div><div class="line">        <span class="keyword">int</span> width = imgIn.getWidth();</div><div class="line">        <span class="keyword">int</span> height = imgIn.getHeight();</div><div class="line">        Bitmap.Config type = imgIn.getConfig();</div><div class="line"></div><div class="line">        <span class="comment">// Copy the byte to the file</span></div><div class="line">        <span class="comment">// Assume source bitmap loaded using options.inPreferredConfig =</span></div><div class="line">        <span class="comment">// Config.ARGB_8888;</span></div><div class="line">        FileChannel channel = randomAccessFile.getChannel();</div><div class="line">        MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_WRITE, <span class="number">0</span>,</div><div class="line">                imgIn.getRowBytes() * height);</div><div class="line">        imgIn.copyPixelsToBuffer(map);</div><div class="line">        <span class="comment">// recycle the source bitmap, this will be no longer used.</span></div><div class="line">        imgIn.recycle();</div><div class="line">        System.gc();<span class="comment">// try to force the bytes from the imgIn to be released</span></div><div class="line"></div><div class="line">        <span class="comment">// Create a new bitmap to load the bitmap again. Probably the memory</span></div><div class="line">        <span class="comment">// will be available.</span></div><div class="line">        imgIn = Bitmap.createBitmap(width, height, type);</div><div class="line">        map.position(<span class="number">0</span>);</div><div class="line">        <span class="comment">// load it back from temporary</span></div><div class="line">        imgIn.copyPixelsFromBuffer(map);</div><div class="line">        <span class="comment">// close the temporary file and channel , then delete that also</span></div><div class="line">        channel.close();</div><div class="line">        randomAccessFile.close();</div><div class="line"></div><div class="line">        <span class="comment">// delete the temp file</span></div><div class="line">        file.delete();</div><div class="line"></div><div class="line">        <span class="keyword">return</span> imgIn;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>转换完lame模板，剩下的步骤就是按部就班了。</p>
+<p>当时我随便在工程资源文件里面挑了一张当做lame模板<img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/test.png" alt="lame_math">，另一张当做要做曲线变换的显示图标，观察结果发现，按照我的想法，确实两者有一部分发生了交集，模板蓝色的部分，确实显示了图标，但是透明区域还是透明的，没有显示图标，没有达到想要的效果。</p>
+<p>第二天我让美工给我提供了一个蓝色边线，中间非透明的lame曲线的图片，继续做实验，测试各种lame模板的搭配，比如红色边界线，白色的中间填充等等。最终发现，能达到我需要的效果的lame模板必须是，边界蓝色，中间非透明黑色的，就如下图这样：</p>
+<center class="half"><br>   <img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/lame_curve_bg.png" width="100"><br>   <img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/oval_curve_bg.png" width="100"><br>   <img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/rectangle_curve_bg.png" width="100"><br>   <img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/star_curve_bg.png" width="100"><br>   <img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/triangle_curve_bg.png" width="100"><br></center>
+
+
+
+
+<p>有了模板，有了原图标<img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/sogou.png" alt="tria">，那么下一步就duang的搞定了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//ClipType是一个自定义的比例工具，因为我们的快链展示为原图片中间的87%，或者全size，所以做了一个转换工具，可忽略此步</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">drawTarget</span><span class="params">(Context context, Bitmap srcBitmap, <span class="keyword">float</span> scale)</span> </span>&#123;</div><div class="line">        Bitmap copyBitmap = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="keyword">int</span> mLameW = <span class="number">0</span>, mLameH = <span class="number">0</span>;</div><div class="line">            <span class="keyword">if</span>(mLameCurveBitmap == <span class="keyword">null</span>)&#123;</div><div class="line">                Bitmap targetBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.lame_curve_bg);</div><div class="line">                mLameCurveBitmap = convertToMutable(destBitmap);</div><div class="line">                mLameBgWidth = mLameCurveBitmap.getWidth();</div><div class="line">                mLameBgHeight = mLameCurveBitmap.getHeight();</div><div class="line">            &#125;</div><div class="line">            copyBitmap = Bitmap.createBitmap(mLameCurveBitmap);</div><div class="line">            mLameW = mLameBgWidth;</div><div class="line">            mLameH = mLameBgHeight;</div><div class="line">            Canvas mCanvas = <span class="keyword">new</span> Canvas(copyBitmap);</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (srcBitmap != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">int</span> srcWidth = srcBitmap.getWidth();</div><div class="line">                <span class="keyword">int</span> srcHeight = srcBitmap.getHeight();</div><div class="line">                <span class="keyword">float</span> scaleX = scale*mLameW / srcWidth;</div><div class="line">                <span class="keyword">float</span> scaleY = scale*mLameH / srcHeight;</div><div class="line">                <span class="keyword">float</span> maxScale = Math.max(scaleX, scaleY);</div><div class="line"></div><div class="line">                Matrix matrix = <span class="keyword">new</span> Matrix();</div><div class="line">                matrix.postScale(maxScale, maxScale);</div><div class="line">                Paint mPaint = <span class="keyword">new</span> Paint();</div><div class="line">                mPaint.setAntiAlias(<span class="keyword">true</span>);</div><div class="line">                mPaint.setColor(Color.GRAY);</div><div class="line">                mPaint.setXfermode(<span class="keyword">new</span> PorterDuffXfermode(PorterDuff.Mode.SRC_IN));</div><div class="line">                Bitmap srcBitmap2 = Bitmap.createBitmap(srcBitmap, <span class="number">0</span>, <span class="number">0</span>, srcWidth,</div><div class="line">                        srcHeight, matrix, <span class="keyword">true</span>);</div><div class="line">                <span class="keyword">float</span> offsetX = ClipType.getOffset(srcWidth, mLameW, maxScale, scale);</div><div class="line">                <span class="keyword">float</span> offsetY = ClipType.getOffset(srcHeight, mLameH, maxScale, scale);</div><div class="line">                mCanvas.drawBitmap(srcBitmap2, offsetX, offsetY, mPaint);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> copyBitmap;</div><div class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">            <span class="keyword">return</span> getDefaultBitmap(context, scale);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>当然，上述代码是针对我们项目做了调整和优化的，但也有优化上面的不足，具体情况具体分析吧，各位。</p>
+<h3 id="3，Show一下做成的成果："><a href="#3，Show一下做成的成果：" class="headerlink" title="3，Show一下做成的成果："></a>3，Show一下做成的成果：</h3><p>拿着上面的各种模板，还有原始图标(本来想拿搜狗浏览器的图标呢，结果我们图标没有方的，只有圆的，做出来效果不明显，让我很方，只好给搜狗搜索做做硬广了 ：P)</p>
+<p><img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/demo_result.png" alt="tria"></p>
+<p>具体为什么lame模板必须是上述那样子的，我暂时还没有搞明白，<img src="/2017/09/29/Android中一种对图片展示为不同形状的处理姿势/why.png" alt="tria"><br>因为Canvas绘制都是直接native的方法，本人的c、c++也只是皮毛水平，就不想自虐了，有兴趣研究的，如果知道，劳烦告知我一下其中缘由，先谢谢了~~~</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-ImageView-Bitmap-类圆角矩形/" rel="tag"># Android ImageView Bitmap 类圆角矩形</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/27/Android动画实现原理浅析/" rel="next" title="Android动画实现原理浅析">
+                <i class="fa fa-chevron-left"></i> Android动画实现原理浅析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myself.jpg"
+               alt="lyhighfly" />
+          <p class="site-author-name" itemprop="name">lyhighfly</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1，常规实现方式："><span class="nav-number">1.</span> <span class="nav-text">1，常规实现方式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2，一种不常规的做法："><span class="nav-number">2.</span> <span class="nav-text">2，一种不常规的做法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面就说说我苦逼实现的过程："><span class="nav-number">3.</span> <span class="nav-text">下面就说说我苦逼实现的过程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3，Show一下做成的成果："><span class="nav-number">4.</span> <span class="nav-text">3，Show一下做成的成果：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lyhighfly</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a></div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.2"></script>
+
+
+  
+
+</body>
+</html>
