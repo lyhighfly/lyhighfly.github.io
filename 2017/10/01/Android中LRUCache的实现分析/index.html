@@ -96,27 +96,18 @@
 
 
 <meta name="description" content="什么是LRU：
-Least Recently Used(最近最少使用)，其思想如名称，定义一个固定size的缓存池，如果缓存内容没有超过缓存池，则所有的数据都是可以直接放入到池中的，但是如果需要缓存的对象，已经超过了缓存池的限制，则LRU会将最近最少被使用到的缓存池中的对象，驱逐出池，用于腾出空位置将新对象放入其中。
-
-什么是LinkedHashMap：
-内部基于双向链表，实现了Map接口的数据结">
+Least Recently Used(最近最少使用)，其思想如名称，定义一个固定size的缓存池，如果缓存内容没有超过缓存池，则所有的数据都是可以直接放入到池中的，但是如果需要缓存的对象，已经超过了缓存池的限制，则LRU会将最近最少被使用到的缓存池中的对象，驱逐出池，用于腾出空位置将新对象放入其中。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android中LRUCache实现的分析">
 <meta property="og:url" content="https://lyhighfly.github.io/2017/10/01/Android中LRUCache的实现分析/index.html">
 <meta property="og:site_name" content="低级Debuger">
 <meta property="og:description" content="什么是LRU：
-Least Recently Used(最近最少使用)，其思想如名称，定义一个固定size的缓存池，如果缓存内容没有超过缓存池，则所有的数据都是可以直接放入到池中的，但是如果需要缓存的对象，已经超过了缓存池的限制，则LRU会将最近最少被使用到的缓存池中的对象，驱逐出池，用于腾出空位置将新对象放入其中。
-
-什么是LinkedHashMap：
-内部基于双向链表，实现了Map接口的数据结">
-<meta property="og:updated_time" content="2017-10-01T11:15:22.000Z">
+Least Recently Used(最近最少使用)，其思想如名称，定义一个固定size的缓存池，如果缓存内容没有超过缓存池，则所有的数据都是可以直接放入到池中的，但是如果需要缓存的对象，已经超过了缓存池的限制，则LRU会将最近最少被使用到的缓存池中的对象，驱逐出池，用于腾出空位置将新对象放入其中。">
+<meta property="og:updated_time" content="2017-10-03T02:03:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android中LRUCache实现的分析">
 <meta name="twitter:description" content="什么是LRU：
-Least Recently Used(最近最少使用)，其思想如名称，定义一个固定size的缓存池，如果缓存内容没有超过缓存池，则所有的数据都是可以直接放入到池中的，但是如果需要缓存的对象，已经超过了缓存池的限制，则LRU会将最近最少被使用到的缓存池中的对象，驱逐出池，用于腾出空位置将新对象放入其中。
-
-什么是LinkedHashMap：
-内部基于双向链表，实现了Map接口的数据结">
+Least Recently Used(最近最少使用)，其思想如名称，定义一个固定size的缓存池，如果缓存内容没有超过缓存池，则所有的数据都是可以直接放入到池中的，但是如果需要缓存的对象，已经超过了缓存池的限制，则LRU会将最近最少被使用到的缓存池中的对象，驱逐出池，用于腾出空位置将新对象放入其中。">
 
 
 
@@ -348,7 +339,7 @@ Least Recently Used(最近最少使用)，其思想如名称，定义一个固�
 
       
         <h4 id="什么是LRU："><a href="#什么是LRU：" class="headerlink" title="什么是LRU："></a>什么是LRU：</h4><blockquote>
-<p>Least Recently Used(最近最少使用)，其思想如名称，定义一个固定size的缓存池，如果缓存内容没有超过缓存池，则所有的数据都是可以直接放入到池中的，但是如果需要缓存的对象，已经超过了缓存池的限制，则LRU会将最近最少被使用到的缓存池中的对象，驱逐出池，用于腾出空位置将新对象放入其中。</p>
+<p>Least Recently Used(最近最少使用)，其思想如名称，定义一个固定size的缓存池，如果缓存内容没有超过缓存池，则所有的数据都是可以直接放入到池中的，但是如果需要缓存的对象，已经超过了缓存池的限制，则LRU会将最近最少被使用到的缓存池中的对象，驱逐出池，用于腾出空位置将新对象放入其中。<br><a id="more"></a></p>
 </blockquote>
 <h3 id="什么是LinkedHashMap："><a href="#什么是LinkedHashMap：" class="headerlink" title="什么是LinkedHashMap："></a>什么是LinkedHashMap：</h3><blockquote>
 <p>内部基于双向链表，实现了Map接口的数据结构，在使用LinkedHashMap时，可以定义内部元素存储顺序，默认是按照insert的顺序，但是也可以按照访问顺序，LRUCache的实现，就是使用了LinkedHashMap的按照访问顺序特点。—<br>存储顺序按照插入顺序保存，最近读取的数据放在队列的尾部，最早读取的数据放在了队列的头部，如果当前存储的数据大小已经超过定义的最大值，则新数据插入，会将队头部的数据清除。</p>
