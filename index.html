@@ -961,10 +961,7 @@
 
       
         
-          <p>&emsp;&emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他的影响App性能表现的Key。随便查阅四五篇，也就了然于胸了。相比而言，Google搜到的外文技术文章，还有一些App优化的独到见解和处理方式方法，这个会在下文中有所提及。<br>&emsp;&emsp;所以呢，常规套路在这里我就不准备写了，由于最近半年断断续续的都在做Sogou浏览器的冷启动优化，就分享一下在浏览器冷启动优化过程中的一些经验和一些接下来怎么去进一步优化整个App的想法吧。</p>
-<blockquote>
-<p>说明：这里所说的冷启动，是指非第一次安装的冷启动。由于Android 方法数的限制，Google引入了MultiDex，也正是因为安装包内多了几个Dex文件，导致在第一次安装启动的过程中，多个Dex要做合并编译的优化处理，所以在Sogou浏览器引入的Moudle越来越多的现实状况下，第一次安装启动的时间被拉的越来越长。这一块的优化涉及的技术比较专深，就让负责优化的同事来讲吧。：P</p>
-</blockquote>
+          <p>&emsp;&emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他的影响App性能表现的Key。随便查阅四五篇，也就了然于胸了。相比而言，Google搜到的外文技术文章，还有一些App优化的独到见解和处理方式方法，这个会在下文中有所提及。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/03/Android-App冷启动优化的一些经验/" rel="contents">
@@ -1265,6 +1262,21 @@
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 
@@ -1277,6 +1289,5 @@
 
   
 
-  <script type="text/javascript" src="/js/src/baidu-auto-push.js"></script>
 </body>
 </html>
