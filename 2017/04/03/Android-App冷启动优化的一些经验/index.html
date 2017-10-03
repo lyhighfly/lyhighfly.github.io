@@ -116,7 +116,7 @@
 <meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/6ef44346f7024d5157d622f44d1a5539.png">
 <meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/41197bbe6ca78f6dd6fcbcb889776117.png">
 <meta property="og:image" content="http://up.1.sogou.com/files/2016/10/28/44cce1e038a1f6f5325d634a3d539c3a.png">
-<meta property="og:updated_time" content="2017-04-04T02:23:51.000Z">
+<meta property="og:updated_time" content="2017-10-03T02:09:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android App冷启动优化的一些经验">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他">
@@ -353,8 +353,9 @@
       
         <p>&emsp;&emsp;关于Android App的优化，百度，Google已经收录了不计其数的文章。常规套路我相信大家基本上应该都可以如数家珍了吧。尤其是国内的技术环境，大众化的，易于理解和实践的优化方式和方法，被粘贴过来，复制过去。无非也就是使用系统提供的工具，例如Traceview, Hierarchyviewer，DDMS，MAT等等，去分析方法的调用，View的层级，内存的占用和一些其他的影响App性能表现的Key。随便查阅四五篇，也就了然于胸了。相比而言，Google搜到的外文技术文章，还有一些App优化的独到见解和处理方式方法，这个会在下文中有所提及。<br>&emsp;&emsp;所以呢，常规套路在这里我就不准备写了，由于最近半年断断续续的都在做Sogou浏览器的冷启动优化，就分享一下在浏览器冷启动优化过程中的一些经验和一些接下来怎么去进一步优化整个App的想法吧。</p>
 <blockquote>
-<p>说明：这里所说的冷启动，是指非第一次安装的冷启动。由于Android 方法数的限制，Google引入了MultiDex，也正是因为安装包内多了几个Dex文件，导致在第一次安装启动的过程中，多个Dex要做合并编译的优化处理，所以在Sogou浏览器引入的Moudle越来越多的现实状况下，第一次安装启动的时间被拉的越来越长。这一块的优化涉及的技术比较专深，就让负责优化的同事来讲吧。：P </p>
+<p>说明：这里所说的冷启动，是指非第一次安装的冷启动。由于Android 方法数的限制，Google引入了MultiDex，也正是因为安装包内多了几个Dex文件，导致在第一次安装启动的过程中，多个Dex要做合并编译的优化处理，所以在Sogou浏览器引入的Moudle越来越多的现实状况下，第一次安装启动的时间被拉的越来越长。这一块的优化涉及的技术比较专深，就让负责优化的同事来讲吧。：P</p>
 </blockquote>
+<a id="more"></a>
 <h3 id="Sogou浏览器的冷启动优化"><a href="#Sogou浏览器的冷启动优化" class="headerlink" title="Sogou浏览器的冷启动优化"></a>Sogou浏览器的冷启动优化</h3><p>&emsp;&emsp;冷启动时间：从用户点击桌面的ICON到，App启动并展示在前台，可以与用户产生交互的这段时间。冷启动的优化，说的直白一些，就是尽量让App启动的时间变短。假如用户从点击icon到App启动耗费的时间都够用户思考人生了，99%的用户会毫不犹豫的卸载掉咱么的应用，用户的留存率会直线下降。<br>&emsp;&emsp;因此，冷启动的优化，贯穿浏览器的迭代中，每一版在不停的添加模块，添加功能的同时，在灰度上线的前夕专门预留时间来做冷启动的优化，以保证功能增加，时间不加长。<br>每一版的首页架构不同，因此优化的方法也不尽相同，尤其是4.x版本到5.x版本的优化方式，更改较大。今天就着重介绍一下从浏览器5.0版之后的一处优化小细节：</p>
 <h4 id="0，衡量标准："><a href="#0，衡量标准：" class="headerlink" title="0，衡量标准："></a>0，衡量标准：</h4><blockquote>
 <p>衡量冷启动优化的效果，总要有一个标准，QA的同学是通过摄像头采点的方法来获取冷启动的时间信息的。我们则可以通过adb的命令得到接近的效果，虽然完全启动用户可见的时间点可能会较QA的测试有所不同，但是作为纵向对比工具已经足够了。</p>

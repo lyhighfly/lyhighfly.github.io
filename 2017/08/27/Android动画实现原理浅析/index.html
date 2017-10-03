@@ -106,7 +106,7 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
 <meta property="og:image" content="https://lyhighfly.github.io/2017/08/27/Android动画实现原理浅析/animatorimpl.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2017/08/27/Android动画实现原理浅析/anim_timeline.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2017/08/27/Android动画实现原理浅析/single_multi_anim.png">
-<meta property="og:updated_time" content="2017-10-03T02:03:34.000Z">
+<meta property="og:updated_time" content="2017-10-03T02:07:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android动画实现原理浅析">
 <meta name="twitter:description" content="Android中的动画使用注意事项基本上现如今市面上所有的app，都会使用到动画效果，动画可以很好的提升用户的交互体验。
@@ -343,7 +343,9 @@ Android中的动画大概可以分成两个发展阶段：在Android3.0之前，
 
       
         <h2 id="Android中的动画使用注意事项"><a href="#Android中的动画使用注意事项" class="headerlink" title="Android中的动画使用注意事项"></a>Android中的动画使用注意事项</h2><p>基本上现如今市面上所有的app，都会使用到动画效果，动画可以很好的提升用户的交互体验。</p>
-<p>Android中的动画大概可以分成两个发展阶段：在Android3.0之前，Framework层提供了android.view.animation，可以实现View，ViewGroup的各种动画效果，比如AlphaAnimation，RotateAnimation，ScaleAnimation，TranslateAnimation，就可以分别实现透明度，旋转，缩放，位移等动画效果。当然，也可以通过AnimationSet将多个动画联合使用，以达到更复杂的效果。<br><a id="more"></a><br>为什么在Android3.0之后，就不推荐使用animation的动画了呢，是因为它大概有以下几点缺点：</p>
+<p>Android中的动画大概可以分成两个发展阶段：在Android3.0之前，Framework层提供了android.view.animation，可以实现View，ViewGroup的各种动画效果，比如AlphaAnimation，RotateAnimation，ScaleAnimation，TranslateAnimation，就可以分别实现透明度，旋转，缩放，位移等动画效果。当然，也可以通过AnimationSet将多个动画联合使用，以达到更复杂的效果。</p>
+<a id="more"></a>
+<p>为什么在Android3.0之后，就不推荐使用animation的动画了呢，是因为它大概有以下几点缺点：</p>
 <ol>
 <li>animation的动画，只能实现View的简单的动画效果，复杂的，比如颜色过渡无法实现；</li>
 <li>animation只能操作View及其子类的可视化动画效果，但是，有可能一些非view类型的随时间轴变化的效果无法实现(layout,position的变化)；</li>
