@@ -237,6 +237,303 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lyhighfly.github.io/2018/07/14/组件化实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lyhighfly">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myself.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="低级Debuger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/14/组件化实践/" itemprop="url">组件化实践</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-14T10:04:24+08:00">
+                2018-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-背景介绍"><a href="#1-背景介绍" class="headerlink" title="1.背景介绍"></a>1.背景介绍</h2><p>项目功能已趋近稳定，具体每个功能都已经有完备的流程；</p>
+<p>就目前我看到的产品业务发展规划，是在不断完善项目，修复bug的前提下，主要工作就是对接第三方的设备。</p>
+<p>而在这个过程中，比较突出问题：针对越来越多不同设备，不同需求的接入，修剪适配项目代码，但是前期代码糙快猛，模块功能之间耦合比较严重，对项目代码的修剪工作造成了不小的麻烦，多半情况下的妥协处理就是把不需要的功能入口屏蔽掉，但是相关代码还存在。所以即使某个第三方设备仅仅需要一小部分的功能，其安装包也是和全功能的版本大小一样的，这种在我们推送有流量限制的前提下，是很不节俭的。</p>
+<p>另一个也是代码耦合造成的问题：因为所有功能都耦合在一个module中，在一个版本的迭代中，就有可能因为相互依赖的问题，本该并行开发的工作，变成了线性，严重影响效率。对于测试人员，也要因为任何的改动，做全功能的回归测试。</p>
+<p>基于以上，项目的组件化重构就提上了日程。<br><br><br><br></p>
+<h2 id="2-组件化原理"><a href="#2-组件化原理" class="headerlink" title="2.组件化原理"></a>2.组件化原理</h2><ul>
+<li>组件化的定义：<blockquote>
+<p>Component-based software engineering (CBSE), also known as component-based development (CBD), is a branch of software engineering that emphasizes the separation of concerns in respect of the wide-ranging functionality available throughout a given software system. It is a reuse-based approach to defining, implementing and composing loosely coupled independent components into systems. This practice aims to bring about an equally wide-ranging degree of benefits in both the short-term and the long-term for the software itself and for organizations that sponsor such software.</p>
+</blockquote>
+</li>
+</ul>
+<p>概括一下，就是基于可重用的目的，将一个大型的软件系统按照分离关注点的形式，拆分成多个独立的组件，以此减少耦合。针对我们的项目，大体的体现如下：(未体现base-lib等底层公共module)</p>
+<p><img src="/2018/07/14/组件化实践/module_arch.png" alt="项目的架构演进"><br>组件化思想应用到我们的项目上，就是将收银，Erp，团购验券，预授权等业务模块进行解耦，独立成单独的组件，降低业务复杂度，每个组件都可以有自己独立的版本。根据不同的设备和商务需求，动态的去组合不同组件。这样做的好处，</p>
+<ol>
+<li><p>代码耦合降低，一个模块的改动不涉及或者很少涉及其他模块，提升代码质量，减少出bug的概率；</p>
+</li>
+<li><p>代码修改范围变小，测试的工作量也相应的减少，将具体的业务分拆组件化之后，可以将没有变动的模块剔除回归测试的checklist，减少测试工作量；</p>
+</li>
+<li><p>每一个独立的组件，都可以独立运行，方便开展独立测试；</p>
+</li>
+<li><p>根据不同设备的需求，定制app，不需要的组件不会打包到app中，减少apk的大小；<br><br><br><br></p>
+</li>
+</ol>
+<h2 id="3-方案选择"><a href="#3-方案选择" class="headerlink" title="3.方案选择"></a>3.方案选择</h2><p>明确了目标，那么就要提出对应的实现方案，网络上有一热心网友对比了几个比价成熟的组件化方案：<a href="https://github.com/luckybilly/AndroidComponentizeLibs" target="_blank" rel="external">组件化方案对比</a></p>
+<p>根据热度和传播程度，重点关注了一下得到 <strong><a href="https://github.com/luojilab/DDComponentForAndroid" target="_blank" rel="external">DDComponentForAndroid</a></strong> 和 <strong><a href="https://github.com/alibaba/Arouter" target="_blank" rel="external">阿里Arouter</a></strong></p>
+<p><strong>DDComponentForAndroid</strong> 在路由上面的设计和其他几家通过注解，动态代码生成的实现方式都是大同小异的，但是他在使用Gradle Plugin实现Module之间的完全隔离上，想法比较新颖。只需要声明使用一个plugin，完全不用再多处手动配置<a href="https://www.jianshu.com/p/186fa07fc48a" target="_blank" rel="external">手动配置的实例</a>；</p>
+<p><strong>ARouter</strong> 严格意义上说，不能算是一个组件化框架，是一个用来解耦的路由框架，通过路由完成功能模块间之间的跳转，杜绝了模块间之间的直接依赖，也是组件化重要的思想和工具。</p>
+<p>经过方案的对比，所以最终决定我们项目中的组件化使用：</p>
+<p><strong>ARouter</strong> (路由功能) + <strong>Gradle Plugin</strong>(Module隔离，Module初始化代码动态注入)</p>
+<p><br><br><br></p>
+<h2 id="4-方案实施"><a href="#4-方案实施" class="headerlink" title="4.方案实施"></a>4.方案实施</h2><h3 id="1，-ARouter的使用"><a href="#1，-ARouter的使用" class="headerlink" title="1， ARouter的使用"></a>1， ARouter的使用</h3><p>由于ARouter推出时间比较长，功能多样，性能稳定，关于如何使用，网络上比比皆是，没必要过多介绍了，这里重点关注一下其优缺点和典型的应用场景：</p>
+<ul>
+<li><p><strong>功能介绍</strong></p>
+<ol>
+<li><p>支持直接解析URL进行跳转、参数按类型解析到Bundle，支持Java基本类型(*)</p>
+</li>
+<li><p>支持应用内的标准页面跳转，API接近Android原生接口</p>
+</li>
+<li><p>支持多模块工程中使用，允许分别打包，包结构符合Android包规范即可(*)</p>
+</li>
+<li><p>支持跳转过程中插入自定义拦截逻辑，自定义拦截顺序(*)</p>
+</li>
+<li><p>支持服务托管，通过ByName,ByType两种方式获取服务实例，方便面向接口开发与跨模块调用解耦(*)</p>
+</li>
+<li><p>映射关系按组分类、多级管理，按需初始化，减少内存占用提高查询效率(*)</p>
+</li>
+<li><p>支持用户指定全局降级策略</p>
+</li>
+<li><p>支持获取单次跳转结果</p>
+</li>
+<li><p>丰富的API和可定制性</p>
+</li>
+<li><p>被ARouter管理的页面、拦截器、服务均无需主动注册到ARouter，被动发现</p>
+</li>
+<li><p>支持Android N推出的Jack编译链</p>
+</li>
+</ol>
+</li>
+<li><p>2 <strong>不支持的功能</strong></p>
+<ol>
+<li><p>自定义URL解析规则(考虑支持)</p>
+</li>
+<li><p>不能动态加载代码模块和添加路由规则(考虑支持)</p>
+</li>
+<li><p>多路径支持(不想支持，貌似是导致各种混乱的起因)</p>
+</li>
+<li><p>生成映射关系文档(考虑支持)</p>
+</li>
+</ol>
+</li>
+<li><p>3 <strong>典型应用场景</strong></p>
+<ol>
+<li><p>从外部URL映射到内部页面，以及参数传递与解析</p>
+</li>
+<li><p>跨模块页面跳转，模块间解耦</p>
+</li>
+<li><p>拦截跳转过程，处理登陆、埋点等逻辑</p>
+</li>
+<li><p>跨模块API调用，模块间解耦(注册ARouter服务的形式，通过接口互相调用)</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="2，关键点：组件化Gradle插件"><a href="#2，关键点：组件化Gradle插件" class="headerlink" title="2，关键点：组件化Gradle插件"></a>2，关键点：组件化Gradle插件</h3><p>上文提到一种手动配置组件合并打包和组件独立打包的开发模式，其配置需要过多人为的参与。在配置完后，当前的配置只能符合一种组件组合方式的运行，如图所示：</p>
+<p><img src="/2018/07/14/组件化实践/normal_run_config.png" alt="一般项目中的run configuration"></p>
+<p>当前可以运行app这个module，可能app module依赖于base，payplatform这两个module；</p>
+<p>但是如果我现在想运行payplatform这个module，那么就需要手动的去改每一个module的gradle配置，然后clean project。操作完全部修改步骤之后，才能run payplatform，着实繁琐。</p>
+<p>那么我们的目标是如下图这样的：</p>
+<p><img src="/2018/07/14/组件化实践/moduration_run_config.png" alt="组件化项目中的run configuration"></p>
+<p>每个module都是不需要手动去修改配置的，选中任意一个module，根据预先配置好的module依赖关系，会自动将配置的组件打包进apk，然后运行在机器上。</p>
+<p>每个module都可以直接run的秘密：</p>
+<p>每一个module都会有一个build.gradle文件，其管理当前module的配置，在每一个build.gradle的开头，都有一句声明：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply plugin：com.android.application / com.android.library</div></pre></td></tr></table></figure></p>
+<p>只要是使用application plugin的module，AS就认为这是一个可运行的module，声明为library plugin的module，AS认为它是一个库，不具备单独运行的能力，因此也就会在Run Configurations中对应的module上打上一个叉号❌。</p>
+<p>那么我们是不是可以直接将所有module都声明使用application，就可以达到所有module全部可运行的目的呢？图样图森破。</p>
+<p><strong>不能这么操作的原因有二：</strong></p>
+<ol>
+<li><p>当一个module作为application开始build时，他要求他所依赖的其他所有module，都必须使用library plugin。不然build是无法完成的。</p>
+</li>
+<li><p>在build过程中，其中有一步就是merge AndroidManifest.xml，其会将所有module的manifest做一个合并，其他module作为app运行，一定会声明作为LAUNCHER的Activity，也多半会声明自定义的Application，那么在合并时就会报错，build system不知道要保留哪一个module的Application。即使build完成之后的安装，也会因为manifest中存在声明的每个module的LAUNCHER，而会在桌面上出现多个启动图标。</p>
+</li>
+</ol>
+<p>那么我们自定义的gradle plugin，就需要在点击run时，根据所点击的module，动态的取修改所有的module的build.gradle；大体流程如下：</p>
+<p><img src="/2018/07/14/组件化实践/gradle_flow.png" alt="Gradle的编译流程"></p>
+<h3 id="步骤解析"><a href="#步骤解析" class="headerlink" title="步骤解析"></a>步骤解析</h3><p>当run某一个具体module的时候：</p>
+<p><strong>step1：</strong></p>
+<p>在每个module下，都有一个gradle.properties的配置文件其中声明了当前module作为独立app运行时，需要依赖的module信息：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isRunIndependence = <span class="keyword">true</span></div><div class="line">release_dependency_module = modulea,moduleb</div><div class="line">debug_dependency_modlue = modulea,moduleb</div></pre></td></tr></table></figure></p>
+<p>当在命令行下执行：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./gradlew :app:assembleDebug</div></pre></td></tr></table></figure></p>
+<p>表明当前是将app 这个module作为主module，那么其就会读取app module目录下的gradle.properties，获得app 所依赖的module信息。</p>
+<p><strong>step2-1，step2-2：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//节选自gradle plugin</span></div><div class="line">   <span class="function"><span class="keyword">void</span> <span class="title">useDebugSourceSets</span><span class="params">(Project project)</span> </span>&#123;</div><div class="line">        project.android.sourceSets &#123;</div><div class="line">            main &#123;</div><div class="line">                manifest.srcFile <span class="string">'src/main/debug/AndroidManifest.xml'</span></div><div class="line">                java.srcDirs = [<span class="string">'src/main/debug/java'</span>, <span class="string">'src/main/java'</span>]</div><div class="line">                res.srcDirs = [<span class="string">'src/main/debug/res'</span>, <span class="string">'src/main/res'</span>]</div><div class="line">                assets.srcDirs <span class="string">'src/main/assets'</span></div><div class="line">                jniLibs.srcDirs <span class="string">'src/main/jniLibs'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">useReleaseSourceSets</span><span class="params">(Project project)</span> </span>&#123;</div><div class="line">        project.android.sourceSets &#123;</div><div class="line">            main &#123;</div><div class="line">                manifest.srcFile <span class="string">'src/main/AndroidManifest.xml'</span></div><div class="line">                java.srcDirs <span class="string">'src/main/java'</span></div><div class="line">                res.srcDirs <span class="string">'src/main/res'</span></div><div class="line">                assets.srcDirs <span class="string">'src/main/assets'</span></div><div class="line">                jniLibs.srcDirs <span class="string">'src/main/jniLibs'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>对应的，需要在module中建立相应的目录：</p>
+<p><img src="/2018/07/14/组件化实践/project_arch.png" alt="Module的组织形式"></p>
+<p><strong>step3：</strong><br>一般我们会将一些全局的初始化动作，变量在自定义的Application中进行声明。在Module作为独立App 进行build的时候，这样做是没有问题的，但是当Module作为组件被包含在主Module的代码中时，如上面提到的，为了避免merge Manifest失败，就不能再在Module自身的Manifest中声明自定义的Application了，且即使Module继续使用自定义Application，那么此时Module的Application也是一个普通的类，没有生命周期，不会被系统调用。那么Module又必须要进行一些初始化，怎么做呢？此时就要使用到android gradle1.5之后提供的Transform接口了：<a href="http://tools.android.com/tech-docs/new-build-system/transform-api" target="_blank" rel="external">transform-api简介</a>，配合transform-api就需要javaassist<a href="http://www.tianshouzhi.com/api/tutorials/bytecode/354" target="_blank" rel="external">基本操作demo</a>，一个能够将动态生成的代码插入到class文件的开源库，最终编译成dex，打包到apk中。</p>
+<p>首先在每个module的build.gradle中声明，module作为app，作为组件时初始化使用的类名：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">appindicator&#123;</div><div class="line">    myRealApp = <span class="string">'com.liukuai.modulea.ModuleAApplication'</span> <span class="comment">//独立运行时使用</span></div><div class="line">    myShadowApp = <span class="string">'com.liukuai.modulea.app.ModuleApp'</span> <span class="comment">//module运行时类似Application功能的类</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后插入到transforms过程中的自定义Transform做如下操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 节选自AppTransform</div><div class="line">* <span class="doctag">@mainClass</span>: 主Module appindicator中声明的myRealApp</div><div class="line">* <span class="doctag">@moduleClazz</span>: 所有组件Module appindicator中声明的myShadowApp的集合</div><div class="line">**/ </div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">injectModuleAppCode</span><span class="params">(CtClass mainClass, List&lt;CtClass&gt; moduleClazz, String path)</span></span>&#123;</div><div class="line">        println <span class="string">"begin inject Module App code :$&#123;mainClass.getName()&#125;"</span></div><div class="line">        mainClass.defrost()</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            CtMethod mainCreateMethod = mainClass.getDeclaredMethod(<span class="string">"onCreate"</span>)</div><div class="line">            StringBuilder builder = <span class="keyword">new</span> StringBuilder()</div><div class="line">            println <span class="string">"begin inject Module App code 1"</span></div><div class="line">            <span class="comment">//因为android.jar不在classPool的classpath搜索路径内，要使用this，就需要将android的内容添加到搜索路径中</span></div><div class="line">            def androidPath = getSDkJarPath()</div><div class="line">            println <span class="string">"androidPath:$&#123;androidPath&#125;"</span></div><div class="line">            classPool.insertClassPath(androidPath)</div><div class="line">            <span class="keyword">for</span>(CtClass moduleClass : moduleClazz)&#123;</div><div class="line">                builder.append(<span class="string">"new "</span> + moduleClass.getName() + <span class="string">"().onCreate(this);"</span>)</div><div class="line">            &#125;</div><div class="line">            mainCreateMethod.insertAfter(builder.toString())</div><div class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">            println <span class="string">'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'</span>+<span class="string">"happen Exception: $&#123;e.getMessage()&#125;"</span></div><div class="line">        &#125;</div><div class="line">        mainClass.writeFile(path)</div><div class="line">        mainClass.detach()</div><div class="line">        println <span class="string">"end inject Module App code"</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>编译完成之后，通过反编译看一下是否奏效了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.liukuai.modulazition;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.android.arouter.launcher.ARouter;</div><div class="line"><span class="keyword">import</span> com.liukuai.base_lib.BaseApplication;</div><div class="line"><span class="keyword">import</span> com.liukuai.modulea.app.ModuleApp;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">BaseApplication</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">        ARouter.openLog();</div><div class="line">        ARouter.openDebug();</div><div class="line">        ARouter.init(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">new</span> ModuleApp().onCreate(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">new</span> com.sankuai.moduleb.app.ModuleApp().onCreate(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>bingo，此时，在启动apk时，也会自动的启动Module的初始化工作。</p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h2><p>在每一个Module(不管是主工程，还是其他功能Module)，都声明使用该gradle插件，然后在对应Module的build.gradle中，声明该模块单独运行和作为module运行时，初始化需要调用的类(都是继承自AppSimilar接口)。</p>
+<p>在对应Module的proper.properties文件中声明，当前这个模块如果单独运行所需要依赖的其他module信息。</p>
+<p>像base_lib这种，不是独立功能模块，直接使用android library插件，不能声明使用组件化的gradle插件。</p>
+<p>然后选择module，直接run就可以了(如果碰到编译错误，什么<strong><em>R8</em></strong>之类的，clean一下再run)。</p>
+<p><br><br><br></p>
+<h3 id="附1：关于Android-Gradle-dependencies中集中依赖方式的区别："><a href="#附1：关于Android-Gradle-dependencies中集中依赖方式的区别：" class="headerlink" title="附1：关于Android Gradle dependencies中集中依赖方式的区别："></a>附1：关于Android Gradle dependencies中集中依赖方式的区别：</h3><p><img src="/2018/07/14/组件化实践/android_dependencies.png" alt="android dependencies api"></p>
+<p>可以看到，在android Gradle 3.0以后推出的runtimeOnly是最接近于我们对于组件化的需求的。但是其还是有些许不足，runtimeOnly虽然能隔离module间的java依赖，但是没有隔离资源，也就是moduleA可以直接调用到moduleB的layout，string，drawable等，无法实现我们期望的module间完全隔离。<br><br></p>
+<h3 id="附2：Android-App-Bundle-官方的动态插件方案"><a href="#附2：Android-App-Bundle-官方的动态插件方案" class="headerlink" title="附2：Android App Bundle 官方的动态插件方案"></a>附2：Android App Bundle 官方的动态插件方案</h3><blockquote>
+<p>The new app publishing format, the Android App Bundle, is an improved way to package your app. The Android App Bundle lets you more easily deliver a great experience in a smaller app size, allowing for the huge variety of Android devices available today. You don’t need to refactor your code to start benefiting from a smaller app.</p>
+</blockquote>
+<p>感觉国内的一杆插件化，要毙掉了 ：P</p>
+<ul>
+<li><a href="https://developer.android.com/platform/technology/app-bundle/" target="_blank" rel="external">App Bundle 官方指南</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/38481475?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="external">中文demo</a><br><br></li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><ul>
+<li><p><a href="https://cloud.tencent.com/developer/article/1005631" target="_blank" rel="external">https://cloud.tencent.com/developer/article/1005631</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/1b1d77f58e84" target="_blank" rel="external">https://www.jianshu.com/p/1b1d77f58e84</a></p>
+</li>
+<li><p><a href="https://www.ibm.com/developerworks/cn/education/java/j-groovy/j-groovy.html" target="_blank" rel="external">精通Groovy</a></p>
+</li>
+<li><p><a href="http://kvh.io/cn/embrace-android-studio-gradle-plugin.html#%E5%B0%86-plugin-module-%E4%BC%A0%E5%88%B0%E6%9C%AC%E5%9C%B0-maven-%E4%BB%93%E5%BA%93" target="_blank" rel="external">gradle插件的简单开发</a></p>
+</li>
+<li><p><a href="https://guides.gradle.org/creating-new-gradle-builds/?_ga=2.141831281.298783602.1530679327-1445387325.1530512628" target="_blank" rel="external">官方指南</a></p>
+</li>
+<li><p><a href="https://android.googlesource.com/platform/tools/build/+/master/gradle/src/main/groovy/com/android/build/gradle" target="_blank" rel="external">Android Gradle Plugin 源码</a></p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://lyhighfly.github.io/2017/10/01/Android中LRUCache的实现分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1050,7 +1347,7 @@
             
               <a href="/archives">
             
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1063,7 +1360,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -1105,7 +1402,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
