@@ -95,28 +95,28 @@
 
 
 
-<meta name="description" content="1.背景介绍项目功能已趋近稳定，具体每个功能都已经有完备的流程；
-就目前我看到的产品业务发展规划，是在不断完善项目，修复bug的前提下，主要工作就是对接第三方的设备。
-而在这个过程中，比较突出问题：针对越来越多不同设备，不同需求的接入，修剪适配项目代码，但是前期代码糙快猛，模块功能之间耦合比较严重，对项目代码的修剪工作造成了不小的麻烦，多半情况下的妥协处理就是把不需要的功能入口屏蔽掉，但是相关">
+<meta name="description" content="1.背景介绍工程链接
+
+工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将modul">
 <meta property="og:type" content="article">
 <meta property="og:title" content="组件化实践">
 <meta property="og:url" content="https://lyhighfly.github.io/2018/07/14/组件化实践/index.html">
 <meta property="og:site_name" content="低级Debuger">
-<meta property="og:description" content="1.背景介绍项目功能已趋近稳定，具体每个功能都已经有完备的流程；
-就目前我看到的产品业务发展规划，是在不断完善项目，修复bug的前提下，主要工作就是对接第三方的设备。
-而在这个过程中，比较突出问题：针对越来越多不同设备，不同需求的接入，修剪适配项目代码，但是前期代码糙快猛，模块功能之间耦合比较严重，对项目代码的修剪工作造成了不小的麻烦，多半情况下的妥协处理就是把不需要的功能入口屏蔽掉，但是相关">
+<meta property="og:description" content="1.背景介绍工程链接
+
+工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将modul">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/module_arch.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/normal_run_config.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/moduration_run_config.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/gradle_flow.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/project_arch.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/android_dependencies.png">
-<meta property="og:updated_time" content="2018-07-14T03:43:49.000Z">
+<meta property="og:updated_time" content="2018-07-14T04:05:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="组件化实践">
-<meta name="twitter:description" content="1.背景介绍项目功能已趋近稳定，具体每个功能都已经有完备的流程；
-就目前我看到的产品业务发展规划，是在不断完善项目，修复bug的前提下，主要工作就是对接第三方的设备。
-而在这个过程中，比较突出问题：针对越来越多不同设备，不同需求的接入，修剪适配项目代码，但是前期代码糙快猛，模块功能之间耦合比较严重，对项目代码的修剪工作造成了不小的麻烦，多半情况下的妥协处理就是把不需要的功能入口屏蔽掉，但是相关">
+<meta name="twitter:description" content="1.背景介绍工程链接
+
+工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将modul">
 <meta name="twitter:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/module_arch.png">
 
 
@@ -348,7 +348,11 @@
       
 
       
-        <h2 id="1-背景介绍"><a href="#1-背景介绍" class="headerlink" title="1.背景介绍"></a>1.背景介绍</h2><p>项目功能已趋近稳定，具体每个功能都已经有完备的流程；</p>
+        <h2 id="1-背景介绍"><a href="#1-背景介绍" class="headerlink" title="1.背景介绍"></a>1.背景介绍</h2><p><a href="https://github.com/lyhighfly/Modularization" target="_blank" rel="external">工程链接</a></p>
+<blockquote>
+<p><strong>工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将module_build单独拉project，编辑上传本地maven库，然后实例工程使用上传的gradle插件记好了</strong></p>
+</blockquote>
+<p>项目功能已趋近稳定，具体每个功能都已经有完备的流程；</p>
 <p>就目前我看到的产品业务发展规划，是在不断完善项目，修复bug的前提下，主要工作就是对接第三方的设备。</p>
 <p>而在这个过程中，比较突出问题：针对越来越多不同设备，不同需求的接入，修剪适配项目代码，但是前期代码糙快猛，模块功能之间耦合比较严重，对项目代码的修剪工作造成了不小的麻烦，多半情况下的妥协处理就是把不需要的功能入口屏蔽掉，但是相关代码还存在。所以即使某个第三方设备仅仅需要一小部分的功能，其安装包也是和全功能的版本大小一样的，这种在我们推送有流量限制的前提下，是很不节俭的。</p>
 <p>另一个也是代码耦合造成的问题：因为所有功能都耦合在一个module中，在一个版本的迭代中，就有可能因为相互依赖的问题，本该并行开发的工作，变成了线性，严重影响效率。对于测试人员，也要因为任何的改动，做全功能的回归测试。</p>
@@ -464,7 +468,7 @@
 <p>然后插入到transforms过程中的自定义Transform做如下操作：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 节选自AppTransform</div><div class="line">* <span class="doctag">@mainClass</span>: 主Module appindicator中声明的myRealApp</div><div class="line">* <span class="doctag">@moduleClazz</span>: 所有组件Module appindicator中声明的myShadowApp的集合</div><div class="line">**/ </div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">injectModuleAppCode</span><span class="params">(CtClass mainClass, List&lt;CtClass&gt; moduleClazz, String path)</span></span>&#123;</div><div class="line">        println <span class="string">"begin inject Module App code :$&#123;mainClass.getName()&#125;"</span></div><div class="line">        mainClass.defrost()</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            CtMethod mainCreateMethod = mainClass.getDeclaredMethod(<span class="string">"onCreate"</span>)</div><div class="line">            StringBuilder builder = <span class="keyword">new</span> StringBuilder()</div><div class="line">            println <span class="string">"begin inject Module App code 1"</span></div><div class="line">            <span class="comment">//因为android.jar不在classPool的classpath搜索路径内，要使用this，就需要将android的内容添加到搜索路径中</span></div><div class="line">            def androidPath = getSDkJarPath()</div><div class="line">            println <span class="string">"androidPath:$&#123;androidPath&#125;"</span></div><div class="line">            classPool.insertClassPath(androidPath)</div><div class="line">            <span class="keyword">for</span>(CtClass moduleClass : moduleClazz)&#123;</div><div class="line">                builder.append(<span class="string">"new "</span> + moduleClass.getName() + <span class="string">"().onCreate(this);"</span>)</div><div class="line">            &#125;</div><div class="line">            mainCreateMethod.insertAfter(builder.toString())</div><div class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">            println <span class="string">'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'</span>+<span class="string">"happen Exception: $&#123;e.getMessage()&#125;"</span></div><div class="line">        &#125;</div><div class="line">        mainClass.writeFile(path)</div><div class="line">        mainClass.detach()</div><div class="line">        println <span class="string">"end inject Module App code"</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>编译完成之后，通过反编译看一下是否奏效了：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.liukuai.modulazition;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.android.arouter.launcher.ARouter;</div><div class="line"><span class="keyword">import</span> com.liukuai.base_lib.BaseApplication;</div><div class="line"><span class="keyword">import</span> com.liukuai.modulea.app.ModuleApp;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">BaseApplication</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">        ARouter.openLog();</div><div class="line">        ARouter.openDebug();</div><div class="line">        ARouter.init(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">new</span> ModuleApp().onCreate(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">new</span> com.sankuai.moduleb.app.ModuleApp().onCreate(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.liukuai.modulazition;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.alibaba.android.arouter.launcher.ARouter;</div><div class="line"><span class="keyword">import</span> com.liukuai.base_lib.BaseApplication;</div><div class="line"><span class="keyword">import</span> com.liukuai.modulea.app.ModuleApp;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">BaseApplication</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">        ARouter.openLog();</div><div class="line">        ARouter.openDebug();</div><div class="line">        ARouter.init(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">new</span> ModuleApp().onCreate(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">new</span> com.liukuai.moduleb.app.ModuleApp().onCreate(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>bingo，此时，在启动apk时，也会自动的启动Module的初始化工作。</p>
 <h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h2><p>在每一个Module(不管是主工程，还是其他功能Module)，都声明使用该gradle插件，然后在对应Module的build.gradle中，声明该模块单独运行和作为module运行时，初始化需要调用的类(都是继承自AppSimilar接口)。</p>
 <p>在对应Module的proper.properties文件中声明，当前这个模块如果单独运行所需要依赖的其他module信息。</p>
