@@ -95,15 +95,15 @@
 
 
 
-<meta name="description" content="1.背景介绍工程链接
-
+<meta name="description" content="工程链接
+1.背景介绍
 工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将modul">
 <meta property="og:type" content="article">
 <meta property="og:title" content="组件化实践">
 <meta property="og:url" content="https://lyhighfly.github.io/2018/07/14/组件化实践/index.html">
 <meta property="og:site_name" content="低级Debuger">
-<meta property="og:description" content="1.背景介绍工程链接
-
+<meta property="og:description" content="工程链接
+1.背景介绍
 工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将modul">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/module_arch.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/normal_run_config.png">
@@ -111,11 +111,11 @@
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/gradle_flow.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/project_arch.png">
 <meta property="og:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/android_dependencies.png">
-<meta property="og:updated_time" content="2018-07-14T04:05:59.000Z">
+<meta property="og:updated_time" content="2018-10-11T15:28:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="组件化实践">
-<meta name="twitter:description" content="1.背景介绍工程链接
-
+<meta name="twitter:description" content="工程链接
+1.背景介绍
 工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将modul">
 <meta name="twitter:image" content="https://lyhighfly.github.io/2018/07/14/组件化实践/module_arch.png">
 
@@ -322,7 +322,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,391
+                  3,477
                 </span>
               
 
@@ -338,7 +338,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  13
+                  14
                 </span>
               
             </div>
@@ -359,9 +359,10 @@
       
 
       
-        <h2 id="1-背景介绍"><a href="#1-背景介绍" class="headerlink" title="1.背景介绍"></a>1.背景介绍</h2><p><a href="https://github.com/lyhighfly/Modularization" target="_blank" rel="external">工程链接</a></p>
-<blockquote>
-<p><strong>工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将module_build单独拉project，编辑上传本地maven库，然后实例工程使用上传的gradle插件记好了</strong></p>
+        <p></p><h1><a href="https://github.com/lyhighfly/Modularization" target="_blank" rel="external">工程链接</a></h1><p></p>
+<h2 id="1-背景介绍"><a href="#1-背景介绍" class="headerlink" title="1.背景介绍"></a>1.背景介绍</h2><blockquote>
+<p><strong>工程配置 android gradle3.0.1，Gradle4.4。因为Android Studio的版本不同，可能upgrade gradle plugin的时候，会触发起码module的build.gradle的运行，而此时module的build.gradle又要使用自己写的这个plugin的东西去解析自己的声明，所有这就是一个鸡和蛋的问题。所以建议将module_build单独拉project，编辑上传本地maven库，然后实例工程使用上传的gradle插件记好了;</strong></p>
+<p><strong>最新的修改：所有的module都变为地位平等，app的module也需要配置是否可以作为其他module的依赖module。gradle编译的时候，一般命令为：gradle build(表示运行以根目录下config.gradle中配置的main_module为主module的编译工作)，单独编译指定module，可以使用命令：gradle :module_name:task_name。</strong></p>
 </blockquote>
 <p>项目功能已趋近稳定，具体每个功能都已经有完备的流程；</p>
 <p>就目前我看到的产品业务发展规划，是在不断完善项目，修复bug的前提下，主要工作就是对接第三方的设备。</p>
@@ -682,7 +683,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-背景介绍"><span class="nav-number">1.</span> <span class="nav-text">1.背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-组件化原理"><span class="nav-number">2.</span> <span class="nav-text">2.组件化原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-方案选择"><span class="nav-number">3.</span> <span class="nav-text">3.方案选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-方案实施"><span class="nav-number">4.</span> <span class="nav-text">4.方案实施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1，-ARouter的使用"><span class="nav-number">4.1.</span> <span class="nav-text">1， ARouter的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2，关键点：组件化Gradle插件"><span class="nav-number">4.2.</span> <span class="nav-text">2，关键点：组件化Gradle插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤解析"><span class="nav-number">4.3.</span> <span class="nav-text">步骤解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-总结"><span class="nav-number">5.</span> <span class="nav-text">5.总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#附1：关于Android-Gradle-dependencies中集中依赖方式的区别："><span class="nav-number">5.1.</span> <span class="nav-text">附1：关于Android Gradle dependencies中集中依赖方式的区别：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附2：Android-App-Bundle-官方的动态插件方案"><span class="nav-number">5.2.</span> <span class="nav-text">附2：Android App Bundle 官方的动态插件方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">5.3.</span> <span class="nav-text">参考文章</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">工程链接</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-背景介绍"><span class="nav-number">1.1.</span> <span class="nav-text">1.背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-组件化原理"><span class="nav-number">1.2.</span> <span class="nav-text">2.组件化原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-方案选择"><span class="nav-number">1.3.</span> <span class="nav-text">3.方案选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-方案实施"><span class="nav-number">1.4.</span> <span class="nav-text">4.方案实施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1，-ARouter的使用"><span class="nav-number">1.4.1.</span> <span class="nav-text">1， ARouter的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2，关键点：组件化Gradle插件"><span class="nav-number">1.4.2.</span> <span class="nav-text">2，关键点：组件化Gradle插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤解析"><span class="nav-number">1.4.3.</span> <span class="nav-text">步骤解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-总结"><span class="nav-number">1.5.</span> <span class="nav-text">5.总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#附1：关于Android-Gradle-dependencies中集中依赖方式的区别："><span class="nav-number">1.5.1.</span> <span class="nav-text">附1：关于Android Gradle dependencies中集中依赖方式的区别：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附2：Android-App-Bundle-官方的动态插件方案"><span class="nav-number">1.5.2.</span> <span class="nav-text">附2：Android App Bundle 官方的动态插件方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">1.5.3.</span> <span class="nav-text">参考文章</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -691,7 +692,12 @@
       
 
       
-
+       <section>
+          <div>
+            <h2>博主QQ:774513640</h2>
+            <h3>前端的东西感觉好乱，搞不定了。有指教请直接QQ联系</h3>
+          </div>
+        </section>
     </div>
   </aside>
 
@@ -720,7 +726,7 @@
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
     <span title="Site words total count">
-      21.0k
+      21.1k
     </span>
   
   &nbsp;&nbsp;|&nbsp;&nbsp;本站总点击 <span id="busuanzi_value_site_pv"></span> 次
